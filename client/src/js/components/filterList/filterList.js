@@ -1,48 +1,53 @@
 import * as React from 'react';
-import { Box, Card, CardContent } from '@mui/material';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOnOutlined';
-import { FilterList, FilterListItem } from 'react-admin';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Checkbox from '@mui/material/Checkbox';
+import Container from '@mui/material/Container';
 
-const HasOrderedFilter = () => (
-    <FilterList
-        label="Has ordered"
-        icon={<MonetizationOnIcon />}
-    >
-        <FilterListItem
-            label="True"
-            value={{
-                nb_commands_gte: 1,
-                nb_commands_lte: undefined,
-            }}
-            />
-            <FilterListItem
-                label="False"
-                value={{
-                    nb_commands_gte: undefined,
-                    nb_commands_lte: 0,
-                }}
-            />
-        </FilterList>
-    );
 
-export default function FilterSidebar() {
-    return(
-         <Box
-        sx={{
-            display: {
-                xs: 'none',
-                sm: 'block'
-            },
-            order: -1, // display on the left rather than on the right of the list
-            width: '15em',
-                marginRight: '1em',
-        }}
-    >
-        <Card>
-            <CardContent>
-                <HasOrderedFilter />
-            </CardContent>
-        </Card>
-    </Box>
-    )   
-};
+export default function CheckboxListSecondary() {
+  const [checked, setChecked] = React.useState([1]);
+
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
+
+  return (
+    <Container>
+        <List dense sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        {[0, 1, 2, 3].map((value) => {
+            const labelId = `checkbox-list-secondary-label-${value}`;
+            return (
+            <ListItem
+                key={value}
+                secondaryAction={
+                <Checkbox
+                    edge="end"
+                    onChange={handleToggle(value)}
+                    checked={checked.indexOf(value) !== -1}
+                    inputProps={{ 'aria-labelledby': labelId }}
+                />
+                }
+                disablePadding
+            >
+                <ListItemButton>
+                <ListItemText id={labelId} primary={`Filtre ${value + 1}`} />
+                </ListItemButton>
+            </ListItem>
+            );
+        })}
+        </List>
+    </Container>
+  );
+}
