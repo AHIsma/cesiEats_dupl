@@ -1,28 +1,17 @@
-import * as React from 'react';
-import { Container } from '@mui/system';
-import Navbar from './components/navBar/navBar';
-import ListeResto from './components/listeResto/listeResto';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import FilterSidebar from './components/filterList/filterList';
+import React, { Component } from 'react';
+import { Routes, Route, BrowserRouter} from 'react-router-dom';
+import Homepage from './components/homepage/homepage';
 
-
-let theme = createTheme({
-  palette: {
-    primary: {
-      main: '#ffffff',
-    },
-  },
-});
-
-export default function App() {
-  return (
-    <div className="App">
-      <ThemeProvider theme={theme}>
-      <Navbar />
-      </ThemeProvider>
-      <Container>
-      <ListeResto />
-      </Container>
-    </div>
-  );
-}
+export default class App extends Component { 
+  render() {
+    return (
+      <div>
+        <BrowserRouter basename="/">
+          <Routes>
+            <Route exact path="/"  element={<Homepage />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    );
+  }
+};
