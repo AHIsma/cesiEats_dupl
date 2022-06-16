@@ -4,25 +4,25 @@
 .vscode
 
 # Dossiers de l'application
-  /client/node_modules
-  /client/.pnp
-  client/.pnp.js
+client/node_modules
+client/.pnp
+client/.pnp.js
   
-  # testing
-  /client/coverage
+# testing
+client/coverage
   
-  # production
-  /client/build
+# production
+client/build
   
-  # misc
-  client/.DS_Store
-  client/.env.local
-  client/.env.development.local
-  client/.env.test.local
-  client/.env.production.local
+# misc
+client/.DS_Store
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
   
-  client/npm-debug.log*
-  client/yarn-debug.log*
-  client/yarn-error.log*
-  
-  /server/node_modules
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+server/node_modules

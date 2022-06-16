@@ -3,8 +3,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 
-export default function ActionAreaCard() {
-  return (
+const ListeResto = () => {
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
         <CardMedia
@@ -23,5 +22,5 @@ export default function ActionAreaCard() {
         </CardContent>
       </CardActionArea>
     </Card>
-  );
-}
+};
+export default ListeResto;

@@ -21,7 +21,7 @@ export default function App() {
       <Navbar />
       </ThemeProvider>
       <Container>
-        <ListeResto />
+      <ListeResto />
       </Container>
     </div>
   );
