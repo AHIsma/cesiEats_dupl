@@ -1,21 +1,17 @@
-import React, {Component} from 'react';
+import React from 'react';
+import { Component } from 'react';
 import Stack from '@mui/material/Stack';
-import Box from "@mui/material/Box"
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Navbar from '../navBar/navBar';
-import ListeResto from '../listeResto/listeResto';
-import FilterList from '../filterList/filterList';
-import Footer from '../footer/footer';
+import Navbar from '../navBar/navBar.tsx';
+import ListeResto from '../listeResto/listeResto.tsx';
+import FilterList from '../filterList/filterList.tsx';
+import Footer from '../footer/footer.tsx';
 
 let theme = createTheme({
   palette: {
     primary: {
       main: '#ffffff'
-    },
-    wrapIcon: {
-      verticalAlign: 'middle',
-      display: 'inline-flex'
     }
   },
 });

@@ -1,10 +1,10 @@
 import * as React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
-import Container from '@mui/material/Container';
+import { List } from '@mui/material';
+import { ListItem } from '@mui/material';
+import { ListItemButton } from '@mui/material';
+import { ListItemText } from '@mui/material';
+import { Checkbox } from '@mui/material';
+import { Container } from '@mui/material';
 
 
 export default function CheckboxListSecondary() {
