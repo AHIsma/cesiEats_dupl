@@ -6,6 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Navbar from '../navBar/navBar';
 import ListeResto from '../listeResto/listeResto';
 import FilterList from '../filterList/filterList';
+import Footer from '../footer/footer';
 
 let theme = createTheme({
   palette: {
@@ -25,6 +26,7 @@ export default class Homepage extends Component {
       <div className="Homepage">
         <ThemeProvider theme={theme}>
           <Navbar />
+          <Footer />
         </ThemeProvider>
         <Container>
           <Stack direction="row" spacing={15}>
