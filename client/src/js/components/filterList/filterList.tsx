@@ -8,9 +8,9 @@ import { Container } from '@mui/material';
 
 
 export default function CheckboxListSecondary() {
-  const [checked, setChecked] = React.useState([1]);
+  const [checked, setChecked] = React.useState([0]);
 
-  const handleToggle = (value) => () => {
+  const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
