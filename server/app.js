@@ -29,10 +29,7 @@ app.use('/api/orders', ordersRouter);
 app.use('/api/restaurants', restaurantsRouter)
 
 // Nous connectons l'API à notre base de données
-mongoose.connect(process.env.MONGODB_URL, {
-  sslKey: "mdbcert.pem",
-  sslCert: 'mdbcert.pem'
-});
+mongoose.connect(process.env.MONGODB_URL);
  
 var db = mongoose.connection; 
 db.on('error', console.error.bind(console, 'Erreur lors de la connexion')); 
