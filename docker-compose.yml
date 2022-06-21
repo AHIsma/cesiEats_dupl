@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  # proxy:
+  #   container_name: proxy
+  #   build:
+  #     context: ./
+  #     dockerfile: docker/proxy/Dockerfile-Proxy
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - db
+  #     - server
+  #     - webapp
+  db:
+    container_name: db
+    build:
+      context: ./
+      dockerfile: docker/db/Dockerfile-DB
+    ports:
+      - "27017:27017"
+    volumes:
+      - "./mongoStorage:/data/db"
+  server:
+    container_name: server
+    build: 
+        context: ./
+        dockerfile: docker/server/Dockerfile-Server
+    ports:
+      - 4000:4000
+    volumes:
+      - ./server:/app 
+    depends_on:
+      - db
+    links:
+      - "db:database"
+  webapp:
+    container_name: client
+    build:
+      context: ./
+      dockerfile: docker/client/Dockerfile-Client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - WATCHPACK_POLLING=true
+
+volumes:
+  mongo-storage:
+    driver: local

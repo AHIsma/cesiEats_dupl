@@ -1,0 +1,5 @@
+FROM mongo
+
+COPY ./docker/mongo.conf /etc/mongo.conf
+
+VOLUME /data/db

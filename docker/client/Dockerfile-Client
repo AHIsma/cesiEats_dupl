@@ -1,0 +1,11 @@
+FROM node:lts-alpine
+
+WORKDIR /app
+
+ENV PATH /app/node_modules/.bin:$PATH
+
+COPY ././client/ /app
+
+RUN npm i --legacy-peer-deps
+
+CMD ["npm", "start"]
