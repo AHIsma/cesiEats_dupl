@@ -1,3 +1,26 @@
+use admin
+db.createUser(
+  {
+     user: "admin",
+     pwd: "nimda",
+     roles:["root"]
+  }
+);
+
+use cesiEats
+db.CreateUser(
+   {
+      user: "cesiEatsAdmin",
+      pwd: "CE2022",
+      roles:[
+         {
+            role:"readwrite",
+            db:"cesiEats"
+         }
+      ]
+
+   }
+);
 version: "3"
 
 services:
@@ -21,6 +44,7 @@ services:
       - "27017:27017"
     volumes:
       - "./mongoStorage:/data/db"
+    command: [--auth]
   server:
     container_name: server
     build: 
