@@ -1,14 +1,41 @@
 var mongoose = require('mongoose'); 
+var bcrypt = require('bcrypt');
 var { Schema } = mongoose;
 
-const Users = mongoose.model('Users', new mongoose.Schema({
-    name: String,
-    surname: String,
-    username: String,
-    password: String,
-    role: String,
-    address: String,
+var UserSchema = new mongoose.Schema({
+    name: {
+       type: String,
+       required: true
+    },
+    surname: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        unique: true,
+        lowercase: true,
+        required: true,
+        trim: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    role: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        trim: true,
+        required: true
+    },
     orders: [{ type: Schema.Types.ObjectId, ref: 'Orders', default: null}]
-}));
+});
 
-module.exports = Users;
+UserSchema.methods.comparePassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+};
+
+module.exports = mongoose.model('Users', UserSchema);

@@ -4,12 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+var jsonwebtoken = require("jsonwebtoken");
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var ordersRouter = require('./routes/orders');
-var restaurantsRouter = require('./routes/restaurants')
+var restaurantsRouter = require('./routes/restaurants');
 
 var app = express();
 
@@ -19,9 +20,22 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function(req, res, next) {
+  if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
+    jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs', function(err, decode) {
+      if (err) req.user = undefined;
+      req.user = decode;
+      next();
+    });
+  } else {
+    req.user = undefined;
+    next();
+  }
+});
 
 app.use('/api/', indexRouter);
 app.use('/api/users', usersRouter);
@@ -36,21 +50,5 @@ db.on('error', console.error.bind(console, 'Erreur lors de la connexion'));
 db.once('open', function (){
     console.log("Connexion à la base OK"); 
 }); 
-
-// error handler
-app.use(function(err, req, res) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-// catch 404 and forward to error handler
-app.use(function(next) {
-  next(createError(404));
-});
 
 module.exports = app;
