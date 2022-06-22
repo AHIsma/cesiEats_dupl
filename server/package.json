@@ -17,6 +17,7 @@
     "morgan": "latest",
     "nodemon": "latest",
     "pug": "latest",
-    "save": "^2.5.0"
+    "save": "^2.5.0",
+    "tedious": "latest"
   }
 }

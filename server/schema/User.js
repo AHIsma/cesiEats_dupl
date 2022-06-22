@@ -31,6 +31,10 @@ var UserSchema = new mongoose.Schema({
         trim: true,
         required: true
     },
+    isLocked: {
+        type: Boolean,
+        default: false
+    },
     orders: [{ type: Schema.Types.ObjectId, ref: 'Orders', default: null}]
 });
 

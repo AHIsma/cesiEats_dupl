@@ -42,13 +42,41 @@ app.use('/api/users', usersRouter);
 app.use('/api/orders', ordersRouter);
 app.use('/api/restaurants', restaurantsRouter)
 
-// Nous connectons l'API à notre base de données
+// Mongoose Login
 mongoose.connect(process.env.MONGODB_URL);
+
+// SQL Server Login
+var Connection = require('tedious').Connection;  
+var config = {  
+    server: 'your_server.database.windows.net',  //to be defined
+    authentication: {
+        type: 'default',
+        options: {
+            userName: 'your_username', //to be defined
+            password: 'your_password'  //to be defined
+        }
+    },
+    options: {
+        // If you are on Microsoft Azure, you need encryption:
+        encrypt: true,
+        database: 'your_database'  //to be defined
+    }
+};  
+var connection = new Connection(config);  
+connection.on('connect', function(err) {
+  if (err) {
+    console.log(err.message)
+  }  
+  // If no error, then good to proceed.
+  console.log("SQL Server - Connecté");  
+});
+
+connection.connect();
  
 var db = mongoose.connection; 
 db.on('error', console.error.bind(console, 'Erreur lors de la connexion')); 
 db.once('open', function (){
-    console.log("Connexion à la base OK"); 
+    console.log("MongoDB - Connecté"); 
 }); 
 
 module.exports = app;
