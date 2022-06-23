@@ -5,8 +5,6 @@ import "./customerSignIn.scss";
 
 export const CustomerSignup = () => {
 	return (
-		<div>
-			<CustomerRegistration />
-		</div>
+		<CustomerRegistration />
 	);
 };

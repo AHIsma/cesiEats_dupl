@@ -11,10 +11,10 @@ import {
 	Navbar,
 } from "react-bootstrap";
 import { useNavigate } from "react-router";
-import Axios from "axios";
 import { Link } from "react-router-dom";
-import "./customerLogin.scss";
 
+import LambdaService from "../../services/lambdaService";
+import "./customerLogin.scss";
 // import { awsServer } from "../../config/awsIP";
 
 export const CustomerRegistration = (props :any) => {
@@ -33,67 +33,44 @@ export const CustomerRegistration = (props :any) => {
 	const [password, setPassword] = useState("");
 
 	const createAccount = async (e :any) => {
-		// e.preventDefault();
-		// console.log("Before ", dateOfBirth);
-		// const dob = new Date(dateOfBirth);
-		// console.log("After ", dob);
-		// const payload = {
-		// 	firstName: firstName,
-		// 	lastName: lastName,
-		// 	emailId: emailId,
-		// 	password: password,
-		// 	dob: dob,
-		// 	contactNumber: String(mobileNumber),
-		// 	street: street,
-		// 	apt: apt,
-		// 	city: city,
-		// 	zipcode: zipcode,
-		// 	state: state,
-		// 	country: "United States",
-		// 	type: "default",
-		// };
-		// console.log("Created payload!");
-		// try {
-		// 	await Axios.post(`http://${awsServer}/create-customer`, payload);
-		// 	console.log("Successfully registered");
-		// 	history.push("/customerSignin");
-		// } catch (err) {
-		// 	console.error("Error when registering new customer => ", err);
-		// }
+		e.preventDefault();
+		console.log("Before ", dateOfBirth);
+		const dob = new Date(dateOfBirth);
+		console.log("After ", dob);
+		const payload = {
+			firstName: firstName,
+			lastName: lastName,
+			emailId: emailId,
+			password: password,
+			dob: dob,
+			contactNumber: String(mobileNumber),
+			street: street,
+			apt: apt,
+			city: city, 
+			zipcode: zipcode,
+			state: state,
+			country: "United States",
+			type: "default",
+		};
+		console.log("Created payload!");
+		try {
+			await LambdaService.create(payload);
+			console.log("Successfully registered");
+			navigate("/welcome");
+		} catch (err) {
+			console.error("Error when registering new customer => ", err);
+		}
 	};
 
 	return (
-		<Container fluid>
-			<Navbar bg="light">
-				<Container>
-					<Navbar.Brand href="/welcome">
-						<img
-							src="https://uber-eats-webapp-clone.s3.us-west-1.amazonaws.com/logo.svg"
-							width="150"
-							height="50"
-							className="d-inline-block align-top"
-							alt="UberEats logo"
-						/>
-					</Navbar.Brand>
-				</Container>
-			</Navbar>
-			<Row
-				style={{
-					paddingLeft: "50px",
-					paddingRight: "50px",
-				}}
-			>
-				<Col>
-					<h1 className="text">Customer Registration</h1>
+		<Container fluid className="container 	">
+			<Row className="d-flex justify-content-center text-center w-50 m-auto">
+				<Col className="col-md-3">
+					<h4 className="text">Customer Registration</h4>
 				</Col>
 			</Row>
-			<Row
-				style={{
-					paddingLeft: "50px",
-					paddingRight: "500px",
-				}}
-			>
-				<Col>
+			<Row className="d-flex justify-content-center h-25 rowWrapper">
+				<Col className="col-sm-4">
 					<Form onSubmit={createAccount} className="p2">
 						<FormGroup className="mt-3">
 							<FormLabel>First Name: </FormLabel>
