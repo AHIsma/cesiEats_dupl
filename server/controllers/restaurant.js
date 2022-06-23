@@ -2,8 +2,7 @@ const Restaurants = require("../schema/Restaurant");
 
 // CUD (Create Update Delete) sans retour requis
 const createRestaurant = async (req, res) => {
-    const restaurant = new Restaurants(req.body);
-    restaurant.save()
+    await Restaurants.create(req.body)
     .then(() => res.json({"response": true, "answer": "Restaurant ajouté dans la collection."}))
     .catch(err => res.status(400).json({"response": false, "answer": err.message}));
 };

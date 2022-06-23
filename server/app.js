@@ -11,6 +11,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var ordersRouter = require('./routes/orders');
 var restaurantsRouter = require('./routes/restaurants');
+var dishesRouter = require('./routes/dishes');
 
 var app = express();
 
@@ -40,7 +41,8 @@ app.use(function(req, res, next) {
 app.use('/api/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/orders', ordersRouter);
-app.use('/api/restaurants', restaurantsRouter)
+app.use('/api/restaurants', restaurantsRouter);
+app.use('/api/dishes', dishesRouter);
 
 // Mongoose Login
 mongoose.connect(process.env.MONGODB_URL);
