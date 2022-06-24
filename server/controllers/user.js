@@ -43,7 +43,7 @@ const sign_in = function(req, res) {
       if (err) throw err.message;
       if (!user || !user.comparePassword(req.body.password)) return res.status(401).json({"response":false, "answer":'Une des valeurs renseignées est invalide. Veuillez réessayer.' });
       if (user.isLocked) return res.status(401).json({"response":false, "answer":'Vous avez été bloqué, veuillez contacter le service client pour de plus amples informations.' });
-      return res.json({"response": true, "access_token": jwt.sign({ email: user.email, name: user.name, surname: user.surname, role: user.role, address: user.address, _id: user._id }, 'RESTFULAPIs') });
+      return res.json({"response": true, "access_token": jwt.sign({ email: user.email, name: user.name, surname: user.surname, role: user.role, address: user.address, _id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1800s' })});
     });
   };
   
@@ -52,11 +52,35 @@ const loginRequired = function(req, res, next) {
     else return res.status(401).json({"response": "forbidden", "answer": 'Cet utilisateur ne possède pas les autorisations nécessaires pour accéder à cette ressource.' });
   };
 
-const profile = function(req, res, next) {
-    if (req.user) {
-      res.send(req.user);
-      next();
-    } else return res.status(401).json({'response': false, "answer": 'Les données utilisateurs sont erronées.' });
+const profile = function(req, res) {
+    if (req.get('Authorization')) {
+      // virer la mention de Bearer pour vérification token
+      const matches = req.get('Authorization').match(/(bearer)\s+(\S+)/i)
+      jwt.verify(matches[2], process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) return res.status(401).json({'response': false, "answer": "Vous n'êtes pas autorisé à consulter cette ressource." })
+        else res.json(user);
+      });
   };
+};
 
-module.exports = { createUser, updateUser, deleteUser, findUser, findUsers, sign_in, loginRequired, profile }
+const refreshToken = function(req,res) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+  
+    if (token == null) return res.sendStatus(401)
+  
+    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if (err) {
+        return res.sendStatus(401).json({'response': false, "answer": 'Les données utilisateurs sont erronées.' })
+      }
+  
+      delete user.iat;
+      delete user.exp;
+      const refreshedToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1800s' });
+      res.send({
+        accessToken: refreshedToken,
+      });
+    });;
+}
+
+module.exports = { createUser, updateUser, deleteUser, findUser, findUsers, sign_in, loginRequired, profile, refreshToken }

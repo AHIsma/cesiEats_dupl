@@ -45,7 +45,10 @@ app.use('/api/restaurants', restaurantsRouter);
 app.use('/api/dishes', dishesRouter);
 
 // Mongoose Login
-mongoose.connect(process.env.MONGODB_URL);
+mongoose.connect("mongodb+srv://testdbmongo.kcfvf.mongodb.net/cesiEats?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority", {
+  sslKey: "mdbcert.pem",
+  sslCert: 'mdbcert.pem'
+});
 
 // SQL Server Login
 var Connection = require('tedious').Connection;  
@@ -68,9 +71,10 @@ var connection = new Connection(config);
 connection.on('connect', function(err) {
   if (err) {
     console.log(err.message)
-  }  
-  // If no error, then good to proceed.
-  console.log("SQL Server - Connecté");  
+  } else {
+    // If no error, then good to proceed.
+    console.log("SQL Server - Connecté");  
+  }
 });
 
 connection.connect();

@@ -5,6 +5,9 @@ server/node_modules
 .idea
 .vscode
 
+# Dossier Mongo (éviter conflit Docker)
+mongoStorage
+
 # Dossiers de l'application
 client/.pnp
 client/.pnp.js
