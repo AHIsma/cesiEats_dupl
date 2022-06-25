@@ -7,11 +7,10 @@
   },
   "dependencies": {
     "bcrypt": "latest",
-    "cookie-parser": "latest",
+    "cookie-parser": "^1.4.6",
     "debug": "latest",
     "dotenv": "latest",
     "express": "latest",
-    "http-errors": "latest",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "latest",
     "morgan": "latest",

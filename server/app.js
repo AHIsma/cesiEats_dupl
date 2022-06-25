@@ -1,10 +1,8 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
-var jsonwebtoken = require("jsonwebtoken");
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
@@ -12,6 +10,7 @@ var usersRouter = require('./routes/users');
 var ordersRouter = require('./routes/orders');
 var restaurantsRouter = require('./routes/restaurants');
 var dishesRouter = require('./routes/dishes');
+var blacklistedtokensRouter = require('./routes/blacklistedTokens');
 
 var app = express();
 
@@ -25,30 +24,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req, res, next) {
-  if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
-    jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs', function(err, decode) {
-      if (err) req.user = undefined;
-      req.user = decode;
-      next();
-    });
-  } else {
-    req.user = undefined;
-    next();
-  }
-});
-
 app.use('/api/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/orders', ordersRouter);
 app.use('/api/restaurants', restaurantsRouter);
 app.use('/api/dishes', dishesRouter);
+app.use('/api/blacklistedtoken', blacklistedtokensRouter)
 
 // Mongoose Login
-mongoose.connect("mongodb+srv://testdbmongo.kcfvf.mongodb.net/cesiEats?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority", {
-  sslKey: "mdbcert.pem",
-  sslCert: 'mdbcert.pem'
-});
+mongoose.connect(process.env.MONGODB_URL);
 
 // SQL Server Login
 var Connection = require('tedious').Connection;  
