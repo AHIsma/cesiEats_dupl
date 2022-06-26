@@ -6,7 +6,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
-    "bcrypt": "latest",
+    "bcryptjs": "latest",
     "cookie-parser": "^1.4.6",
     "debug": "latest",
     "dotenv": "latest",

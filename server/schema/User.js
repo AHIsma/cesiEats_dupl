@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'); 
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var { Schema } = mongoose;
 
 var UserSchema = new mongoose.Schema({
@@ -35,7 +35,9 @@ var UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    orders: [{ type: Schema.Types.ObjectId, ref: 'Orders', default: null}]
+    orders: [{ type: Schema.Types.ObjectId, ref: 'Orders', default: null}],
+    connections: [{ type: Date }],
+    lastConnectedAt: { type: Date }
 });
 
 UserSchema.methods.comparePassword = function(password) {
