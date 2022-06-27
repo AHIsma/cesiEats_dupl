@@ -37,7 +37,10 @@ var UserSchema = new mongoose.Schema({
     },
     orders: [{ type: Schema.Types.ObjectId, ref: 'Orders', default: null}],
     connections: [{ type: Date }],
-    lastConnectedAt: { type: Date }
+    lastConnectedAt: { type: Date },
+    sponsorCode: { type: String, required: true },
+    hasbeenSponsored: { type: Boolean, default: false },
+    sponsor: { type: Schema.Types.ObjectId, ref: 'Users', default: null }
 });
 
 UserSchema.methods.comparePassword = function(password) {

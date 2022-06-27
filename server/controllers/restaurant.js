@@ -1,4 +1,5 @@
 const Restaurants = require("../schema/Restaurant");
+const helpers = require('../helpers/helpers');
 
 // CUD (Create Update Delete) sans retour requis
 const createRestaurant = async (req, res) => {
@@ -8,15 +9,25 @@ const createRestaurant = async (req, res) => {
 };
 
 const updateRestaurant = async (req, res) => {
-    await Restaurants.findByIdAndUpdate(req.params.id, req.body)
-    .then(() => res.json({"response": true, "answer": "Restaurant mis à jour dans la collection."}))
-    .catch(err => res.status(400).json({"response": false, "answer": err.message}));
+    const verification = await helpers.verifyRestaurant(req,res);
+    if (verification) {
+        await Restaurants.findByIdAndUpdate(req.params.id, req.body)
+        .then(() => res.json({"response": true, "answer": "Restaurant mis à jour dans la collection."}))
+        .catch(err => res.status(400).json({"response": false, "answer": err.message}));
+    } else {
+        res.status(400).json({"response": false, "answer": "Vous n'êtes pas autorisé à consulter cette ressource."});
+    }
 };
 
 const deleteRestaurant = async (req, res) => {
-    await Restaurants.findByIdAndDelete(req.params.id)
-    .then(() => res.json({"response": true, "answer": "Restaurant supprimé de la collection."}))
-    .catch(err => res.status(400).json({"response": false, "answer": err.message}));
+    const verification = await helpers.verifyRestaurant(req,res);
+    if (verification) {
+        await Restaurants.findByIdAndDelete(req.params.id)
+        .then(() => res.json({"response": true, "answer": "Restaurant supprimé de la collection."}))
+        .catch(err => res.status(400).json({"response": false, "answer": err.message}));
+    } else {
+        res.status(400).json({"response": false, "answer": "Vous n'êtes pas autorisé à consulter cette ressource."});
+    } 
 }
 
 // R (Read) avec retour requis
