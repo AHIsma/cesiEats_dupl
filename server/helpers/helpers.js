@@ -53,5 +53,15 @@ async function verifyDeliverer(req,res) {
     }
 }
 
+async function verifyifConnected(req, res) {
+    if(req.cookies) {
+        const token = jwt.verify(req.cookies['access_token'], process.env.ACCESS_TOKEN_SECRET)
+        if (token) return true
+        else return false
+    } else {
+        return false;
+    }
+}
 
-module.exports = { verifyUser, verifyifAdmin, verifyRestaurant, verifyDeliverer }
+
+module.exports = { verifyUser, verifyifAdmin, verifyRestaurant, verifyDeliverer, verifyifConnected }

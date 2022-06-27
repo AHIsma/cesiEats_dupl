@@ -11,7 +11,7 @@ const createOrder = async (req, res) => {
 };
 
 const updateOrder = async (req, res) => {
-    const verification = await helpers.verifyUser(req, res);
+    const verification = await helpers.verifyifConnected(req, res);
     if (verification) {
         await Orders.findByIdAndUpdate(req.params.id, req.body)
         .then(() => res.json({"response": true, "answer": "Commande mise à jour dans la collection."}))
@@ -29,27 +29,47 @@ const deleteOrder = async (req, res) => {
 
 // R (Read) avec retour requis
 const findOrder = async (req, res) => {
-    await Orders.findById(req.params.id).populate('restaurant', 'user', 'dishes')
-    .then(order => {if(order !== null) res.json({"response": true, "answer": order}); else res.status(400).json({"response": false, "answer": "Aucune commande n'existe avec cet identifiant."})})
-    .catch(err => res.status(400).json({"response": false, "answer": err.message}));
+    const verification = await helpers.verifyUser(req,res);
+    if (verification) {
+        await Orders.findById(req.params.id).populate('restaurant', 'user', 'dishes')
+        .then(order => {if(order !== null) res.json({"response": true, "answer": order}); else res.status(400).json({"response": false, "answer": "Aucune commande n'existe avec cet identifiant."})})
+        .catch(err => res.status(400).json({"response": false, "answer": err.message}));
+    } else {
+        res.status(400).json({"response": false, "answer": "Vous n'êtes pas autorisé à effectuer cette action."});
+    }
 };
 
 const findOrders = async(_req, res) => {
-    await Orders.find().populate()
-    .then(orders => {if(orders !== null) res.json({"response": true, "answer": orders}); else res.status(400).json({"response": false, "answer": "Aucune commande n'existe dans la collection."})})
-    .catch(err => res.status(400).json({"response": false, "answer": err.message}));   
+    const verification = await helpers.verifyifAdmin(req,res);
+    if (verification) {
+        await Orders.find().populate()
+        .then(orders => {if(orders !== null) res.json({"response": true, "answer": orders}); else res.status(400).json({"response": false, "answer": "Aucune commande n'existe dans la collection."})})
+        .catch(err => res.status(400).json({"response": false, "answer": err.message}));   
+    } else {
+        res.status(400).json({"response": false, "answer": "Vous n'êtes pas autorisé à effectuer cette action."});
+    }
 };
 
 const findOrdersByRestaurant = async(req, res) => {
-    await Orders.find({restaurant: req.user._id}).populate()
-    .then(orders => {if(orders !== null) res.json({"response": true, "answer": orders}); else res.json({"response": true, "answer": "Aucune commande n'est disponible pour ce restaurant."})})
-    .catch(err => res.status(400).json({"response": false, "answer": err.message})); 
+    const verification = await helpers.verifyRestaurant(req,res);
+    if (verification) {
+        await Orders.find({restaurant: req.user._id}).populate()
+        .then(orders => {if(orders !== null) res.json({"response": true, "answer": orders}); else res.json({"response": true, "answer": "Aucune commande n'est disponible pour ce restaurant."})})
+        .catch(err => res.status(400).json({"response": false, "answer": err.message})); 
+    } else {
+        res.status(400).json({"response": false, "answer": "Vous n'êtes pas autorisé à effectuer cette action."});
+    }
 };
 
 const findOrdersByUser = async(req, res) => {
-    await Orders.find({user: req.user._id}).populate()
-    .then(orders => {if(orders !== null) res.json({"response": true, "answer": orders}); else res.json({"response": true, "answer": "Aucune commande n'est disponible pour cet utilisateur."})})
-    .catch(err => res.status(400).json({"response": false, "answer": err.message})); 
+    const verification = await helpers.verifyUser(req,res);
+    if (verification) {
+        await Orders.find({user: req.user._id}).populate()
+        .then(orders => {if(orders !== null) res.json({"response": true, "answer": orders}); else res.json({"response": true, "answer": "Aucune commande n'est disponible pour cet utilisateur."})})
+        .catch(err => res.status(400).json({"response": false, "answer": err.message})); 
+    } else {
+        res.status(400).json({"response": false, "answer": "Vous n'êtes pas autorisé à effectuer cette action."});
+    }
 };
 
 module.exports = { createOrder, updateOrder, deleteOrder, findOrder, findOrders, findOrdersByRestaurant, findOrdersByUser }
