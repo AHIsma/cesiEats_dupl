@@ -12,7 +12,16 @@ const Dishes = mongoose.model('Dishes', new mongoose.Schema({
         quantity: Number,
         needsPrice: Boolean,
         price: Number | null
-    })]
+    })],
+    drinks: [ new mongoose.Schema ({
+        name: String
+    })],
+    pastry: [{
+        name: String,
+        quantity: Number,
+        needsPrice: Boolean,
+        price: Number | null
+    }]
 }));
 
 module.exports = Dishes;
