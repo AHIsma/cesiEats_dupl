@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
-import LambdaService from "../../services/lambdaService";
+import LoginService from "../../services/loginService";
 import "./customerLogin.scss";
 // import { awsServer } from "../../config/awsIP";
 
@@ -43,18 +43,18 @@ export const CustomerRegistration = (props :any) => {
 			emailId: emailId,
 			password: password,
 			dob: dob,
-			contactNumber: String(mobileNumber),
+			phone: String(mobileNumber),
 			street: street,
 			apt: apt,
 			city: city, 
-			zipcode: zipcode,
+			zipCode: zipcode,
 			state: state,
 			country: "United States",
 			type: "default",
 		};
 		console.log("Created payload!");
 		try {
-			await LambdaService.create(payload);
+			await LoginService.create(payload);
 			console.log("Successfully registered");
 			navigate("/welcome");
 		} catch (err) {
