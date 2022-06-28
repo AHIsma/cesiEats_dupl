@@ -2,26 +2,23 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
     <link href="./styles.css" rel="stylesheet">
+    <script src="./node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <title>cesiEats - Programme Administrateur</title>
   </head>
   <div class="wrapper">
-    <form class="login">
+    <form id="admin-login" class="login" method="POST" name="ajax" action="">
       <p class="title">Connexion</p>
-      <input id="email" type="text" placeholder="Email" autofocus/>
+      <input id="email" type="email" placeholder="Email" autofocus/>
       <i class="fa fa-user"></i>
       <input id="password" type="password" placeholder="Mot de passe" />
       <i class="fa fa-key"></i>
-      <button>
-        <i class="spinner"></i>
-        <span class="state">Connexion</span>
-      </button>
+      <button type="submit"><span>Connexion</span></button>
     </form>
-    <footer><a target="blank" href="">cesiEats 2022</a></footer>
+    <footer>
+      <a target="blank" href="">cesiEats 2022</a></footer>
     </p>
   </div>
-  <script src="./preload.js"></script>
+  <script src="./preload.js" type="text/javascript"></script>
   </body>
 </html>

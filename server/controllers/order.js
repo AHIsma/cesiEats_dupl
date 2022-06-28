@@ -1,5 +1,6 @@
 const Orders = require("../schema/Order");
-const Users = require("../schema/User")
+const Users = require("../schema/User");
+const helpers = require('../helpers/helpers');
 
 // CUD (Create Update Delete) sans retour requis
 const createOrder = async (req, res) => {
