@@ -3,15 +3,15 @@ var bcrypt = require('bcryptjs');
 var { Schema } = mongoose;
 
 var UserSchema = new mongoose.Schema({
-    name: {
+    firstName: {
        type: String,
        required: true
     },
-    surname: {
+    lastName: {
         type: String,
         required: true
     },
-    email: {
+    emailId: {
         type: String,
         unique: true,
         lowercase: true,
@@ -22,14 +22,47 @@ var UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    role: {
+    dob: {
+        type: Date,
+        required: true
+    },
+    phone: {
         type: String,
         required: true
     },
-    address: {
+    street: {
         type: String,
         trim: true,
         required: true
+    },
+    apt: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    city: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    zipCode: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    state: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    country: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    role: {
+        type: String,
+        required: false
     },
     isLocked: {
         type: Boolean,
