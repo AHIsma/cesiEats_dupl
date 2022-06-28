@@ -80,16 +80,20 @@ const findUsers = async(req, res) => {
 const sign_in = function(req, res) {
     Users.findOne({email: req.body.email}, function(err, user) {
       if (err) throw err.message;
-      if (user.isLocked) return res.status(401).json({"response":false, "answer":'Vous avez été bloqué, veuillez contacter le service client pour de plus amples informations.' });
-      if (!user || !user.comparePassword(req.body.password)) return res.status(401).json({"response":false, "answer":'Une des valeurs renseignées est invalide. Veuillez réessayer.' });
-      else {
-        var connection = Date.now();
-        user.connections.push(connection)
-        user.lastConnectedAt = connection;
-        user.save()
-        res.cookie('access_token', jwt.sign({ email: user.email, name: user.name, surname: user.surname, role: user.role, address: user.address, _id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3600s' }))
+      else if (user) {
+        if (user.isLocked) return res.status(401).json({"response":false, "answer":'Vous avez été bloqué, veuillez contacter le service client pour de plus amples informations.' });
+        if (!user.comparePassword(req.body.password)) return res.status(401).json({"response":false, "answer":'Une des valeurs renseignées est invalide. Veuillez réessayer.' });
+        else {
+          var connection = Date.now();
+          user.connections.push(connection)
+          user.lastConnectedAt = connection;
+          user.save()
+          res.cookie('access_token', jwt.sign({ email: user.email, name: user.name, surname: user.surname, role: user.role, address: user.address, _id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3600s' }))
+        }
+        return res.json({"response": true, "answer": "Connecté !"});
+      } else {
+        return res.status(401).json({"response": false, "answer":"L'opération à échouée." });
       }
-      return res.json({"response": true, "answer": "Connecté !"});
     });
   };
 
