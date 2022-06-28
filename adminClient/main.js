@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, session} = require('electron')
 
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors");
 
@@ -8,7 +8,10 @@ function createWindow () {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    webPreferences: { webSecurity: false }
+    webPreferences: {
+      useSessionCookies: true,
+      nodeIntegration: true
+     }
   })
 
   // and load the index.html of the app.
@@ -23,6 +26,22 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow()
+
+  // hackerman method for cookies
+  session.defaultSession.webRequest.onHeadersReceived(
+    { urls: ['http://localhost:4000/*/*'] },
+    (details, callback) => {
+      if (
+        details.responseHeaders &&
+        details.responseHeaders['Set-Cookie'] &&
+        details.responseHeaders['Set-Cookie'].length &&
+        !details.responseHeaders['Set-Cookie'][0].includes('SameSite=none; Secure')
+      ) {
+        details.responseHeaders['Set-Cookie'][0] = details.responseHeaders['Set-Cookie'][0] + '; SameSite=none; Secure';
+      }
+        callback({ cancel: false, responseHeaders: details.responseHeaders });
+    },
+  );
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

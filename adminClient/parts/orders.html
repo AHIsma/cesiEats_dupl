@@ -39,6 +39,7 @@
     </nav>
     <table class="ordersTable"></table>
     <script>
+        const dataTable = new simpleDatatables.DataTable(".ordersTable");        
         const getOrders = async() => {
         fetch('http://localhost:4000/api/orders', {
             method: 'GET',
@@ -55,9 +56,8 @@
             }
         });
         }
-        const dataTable = new simpleDatatables.DataTable(".ordersTable");
-        const tabledata = getOrders();
-
+        
+        let tabledata = getOrders();
         dataTable.import({
         type: "json",
         data: tabledata

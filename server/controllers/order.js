@@ -40,7 +40,7 @@ const findOrder = async (req, res) => {
     }
 };
 
-const findOrders = async(_req, res) => {
+const findOrders = async(req, res) => {
     const verification = await helpers.verifyifAdmin(req,res);
     if (verification) {
         await Orders.find().populate()

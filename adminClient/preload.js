@@ -11,9 +11,12 @@ const loginUser = async(mail, pass) => {
   .then(response => response.json())
   .then(data => {
     if(data.response === true) {
-      window.location.replace('./parts/panel.html');
+      document.querySelector('.log').innerHTML = 
+      '<h5>Vous êtes connecté !</h5><a href="./parts/panel.html">Cliquez ici pour accéder à votre panel</a>';
+      return true;
     } else {
       alert("Email ou mot de passe incorrect");
+      return false;
     }
   });
 }
