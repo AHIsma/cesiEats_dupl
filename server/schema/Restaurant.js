@@ -3,7 +3,9 @@ var mongoose = require('mongoose');
 const Restaurants = mongoose.model('Restaurants', new mongoose.Schema({
     name: { type: String, required: true },
     street: { type: String, required: true },
-    streetNo: { type: Number, required: true },
+    streetNo: { type: String, required: true },
+    email: { type: String, unique: true, lowercase: true, required: true, trim: true },
+    password: { type: String },
     city: { type: String, required: true },
     state: { type: String, required: false, default: null },
     // pas le choix, les codes postaux qui commencent par 0 
@@ -15,13 +17,34 @@ const Restaurants = mongoose.model('Restaurants', new mongoose.Schema({
     phone: { type: String, maximum: 10 },
     category: { type: String, required: true },
     schedule: {
-        monday: { type: String, required: true },
-        tuesday: { type: String, required: true },
-        wednesday: { type: String, required: true },
-        thursday: { type: String, required: true },
-        friday: { type: String, required: true },
-        saturday: { type: String, required: true },
-        sunday: { type: String, required: true }
+        monday: {
+            opensAt: { type: String, required: true },
+            closesAt: { type: String, required: true }
+        },
+        tuesday: {
+            opensAt: { type: String, required: true },
+            closesAt: { type: String, required: true }
+        },
+        wednesday: {
+            opensAt: { type: String, required: true },
+            closesAt: { type: String, required: true }
+        },
+        thursday:{
+            opensAt: { type: String, required: true },
+            closesAt: { type: String, required: true }
+        },
+        friday: {
+            opensAt: { type: String, required: true },
+            closesAt: { type: String, required: true }
+        },
+        saturday: {
+            opensAt: { type: String, required: true },
+            closesAt: { type: String, required: true }
+        },
+        sunday: {
+            opensAt: { type: String, required: true },
+            closesAt: { type: String, required: true }
+        }
     },
     dishes: [{ type: {
         name: String,

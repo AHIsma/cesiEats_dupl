@@ -43,7 +43,7 @@ const findOrder = async (req, res) => {
 const findOrders = async(req, res) => {
     const verification = await helpers.verifyifAdmin(req,res);
     if (verification) {
-        await Orders.find().populate()
+        await Orders.find().populate('user').populate('restaurant')
         .then(orders => {if(orders !== null) res.json({"response": true, "answer": orders}); else res.status(400).json({"response": false, "answer": "Aucune commande n'existe dans la collection."})})
         .catch(err => res.status(400).json({"response": false, "answer": err.message}));   
     } else {
