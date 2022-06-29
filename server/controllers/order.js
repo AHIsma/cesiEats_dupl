@@ -12,7 +12,7 @@ const createOrder = async (req, res) => {
 };
 
 const updateOrder = async (req, res) => {
-    const verification = await helpers.verifyifConnected(req, res);
+    const verification = await helpers.verifyifConnected(req);
     if (verification) {
         await Orders.findByIdAndUpdate(req.params.id, req.body)
         .then(() => res.json({"response": true, "answer": "Commande mise à jour dans la collection."}))
@@ -30,7 +30,7 @@ const deleteOrder = async (req, res) => {
 
 // R (Read) avec retour requis
 const findOrder = async (req, res) => {
-    const verification = await helpers.verifyUser(req,res);
+    const verification = await helpers.verifyUser(req);
     if (verification) {
         await Orders.findById(req.params.id).populate('restaurant', 'user', 'dishes')
         .then(order => {if(order !== null) res.json({"response": true, "answer": order}); else res.status(400).json({"response": false, "answer": "Aucune commande n'existe avec cet identifiant."})})
@@ -41,7 +41,8 @@ const findOrder = async (req, res) => {
 };
 
 const findOrders = async(req, res) => {
-    const verification = await helpers.verifyifAdmin(req,res);
+    const verification = await helpers.verifyifAdmin(req);
+    console.log(verification)
     if (verification) {
         await Orders.find().populate('user').populate('restaurant')
         .then(orders => {if(orders !== null) res.json({"response": true, "answer": orders}); else res.status(400).json({"response": false, "answer": "Aucune commande n'existe dans la collection."})})
@@ -52,7 +53,7 @@ const findOrders = async(req, res) => {
 };
 
 const findOrdersByRestaurant = async(req, res) => {
-    const verification = await helpers.verifyRestaurant(req,res);
+    const verification = await helpers.verifyRestaurant(req);
     if (verification) {
         await Orders.find({restaurant: req.user._id}).populate()
         .then(orders => {if(orders !== null) res.json({"response": true, "answer": orders}); else res.json({"response": true, "answer": "Aucune commande n'est disponible pour ce restaurant."})})
@@ -63,7 +64,7 @@ const findOrdersByRestaurant = async(req, res) => {
 };
 
 const findOrdersByUser = async(req, res) => {
-    const verification = await helpers.verifyUser(req,res);
+    const verification = await helpers.verifyUser(req);
     if (verification) {
         await Orders.find({user: req.user._id}).populate()
         .then(orders => {if(orders !== null) res.json({"response": true, "answer": orders}); else res.json({"response": true, "answer": "Aucune commande n'est disponible pour cet utilisateur."})})

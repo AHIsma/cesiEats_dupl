@@ -21,11 +21,7 @@ const loginUser = async(mail, pass) => {
   });
 }
 
-var form = document.getElementById("admin-login");
-function handleForm(event) { event.preventDefault(); } 
-form.addEventListener('submit', handleForm);
-
-const submitButton = document.querySelector('button[type="submit"]');
+const submitButton = document.querySelector('button[type="button"]');
 submitButton.addEventListener('click', () => {
   loginUser(document.querySelector('input[type="email"]').value, document.querySelector('input[type="password"]').value);  
 });
