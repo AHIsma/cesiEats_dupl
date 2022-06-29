@@ -8,6 +8,6 @@ router.get('/', findDishes)
 .get('/:id', findDish)
 .put('/update/:id', updateDish)
 .delete('/delete/:id', deleteDish)
-.get('/dishspec', findDishesByRestaurant);
+.get('/dishspec/:id', findDishesByRestaurant);
 
 module.exports = router;
