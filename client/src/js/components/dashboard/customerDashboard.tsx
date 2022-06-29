@@ -63,9 +63,9 @@ export const CustomerDashboard = (props :any) => {
 		try {
 			const response = await RestaurantService.getRestaurants(currLocation);
 			console.log(response);
-			setRestaurants(response.data);
-			setDisplayRestaurants(response.data);
-			setSearchedRestaurants(response.data);
+			setRestaurants(response.data.answer);
+			setDisplayRestaurants(response.data.answer);
+			setSearchedRestaurants(response.data.answer);
 			restaurants.map((item) => console.log(JSON.stringify(item)));
 		} catch (err) {
 			console.error(err);
@@ -383,13 +383,6 @@ export const CustomerDashboard = (props :any) => {
 				className="mb-3"
 			>
 				<Navbar.Brand as={Link} to="/dashboard">
-					<img
-						src="https://uber-eats-webapp-clone.s3.us-west-1.amazonaws.com/logo.svg"
-						width="150"
-						height="30"
-						className="d-inline-block align-top"
-						alt="UberEats logo"
-					/>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav"></Navbar.Collapse>
