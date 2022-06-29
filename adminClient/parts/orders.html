@@ -39,29 +39,37 @@
     </nav>
     <table class="ordersTable"></table>
     <script>
-        const dataTable = new simpleDatatables.DataTable(".ordersTable");        
-        const getOrders = async() => {
-        fetch('http://localhost:4000/api/orders', {
-            method: 'GET',
-            headers: {
-            'Accept': 'application/json',
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.response === true) {
-            tabledata = data.answer;
-            } else {
-            alert("Une erreur est survenue lors de la récupération des commandes.");
-            }
-        });
+        const dataTable = new simpleDatatables.DataTable(".ordersTable");
+        async function getOrders() {
+            let orderData = [];
+            fetch('http://localhost:4000/api/orders', {
+                method: 'GET',
+                headers: {
+                'Accept': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.response === true) {
+                    let json = []
+                    for(var order of data.answer) {
+                        json += {
+                            "Identifiant": order.id, 
+                            "Utilisateur": order.user.name + order.user.surname,
+                            "Restaurant": order.restaurant.name,
+                            "Statut": order.status,
+                            "Date": order.date,
+                            "Prix total": order.totalPrice
+                        };
+                    }
+                    console.log(json)
+                    dataTable.columns().add(json);
+                } else {
+                    alert("Une erreur est survenue lors de la récupération des commandes.");
+                }
+            });
         }
-        
-        let tabledata = getOrders();
-        dataTable.import({
-        type: "json",
-        data: tabledata
-        });
+        getOrders();
     </script>
   </body>
 </html>

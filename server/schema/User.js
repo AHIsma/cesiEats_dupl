@@ -9,12 +9,12 @@ var UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
     role: { type: String, required: true },
     street: { type: String, required: true },
-    streetNo: { type: Number, required: true },
+    streetNo: { type: String, required: true },
     city: { type: String, required: true },
     state: { type: String, required: false, default: null },
     // pas le choix, les codes postaux qui commencent par 0 
     // seront considérés comme invalides si de type Number
-    zipcode: { type: String, required: true },
+    zipCode: { type: String, required: true },
     country: { type: String, required: true },
     isLocked: { type: Boolean, default: false },
     orders: [{ type: Schema.Types.ObjectId, ref: 'Orders', default: null}],
