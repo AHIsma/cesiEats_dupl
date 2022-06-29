@@ -50,7 +50,7 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   const verification = await helpers.verifyUser(req, res);
   if(verification) {
-    Users.findByIdAndDelete(req.params.id)
+    Users.findByIdAndDelete(req.params.customerId)
     .then(() => res.json({"response": true, "answer": "Utilisateur supprimé dans la collection."}))
     .catch(err => res.status(400).json({"response": false, "answer": err.message}));
   } else {
@@ -60,7 +60,7 @@ const deleteUser = async (req, res) => {
 
 // R (Read) avec retour requis
 const findUser = async (req, res) => {
-  const verification = await helpers.verifyUser(req, res);
+  const verification = await helpers.verifyUser(req, res).catch(err => {throw err});
   if(verification) {
         Users.findById(req.params.id)
         .then(user => {if(user !== null) res.json({"response": true, "answer": user}); else res.status(400).json({"response": false, "answer": "Aucun utilisateur n'existe avec cet identifiant."})})
@@ -92,7 +92,8 @@ const sign_in = function(req, res) {
           user.connections.push(connection)
           user.lastConnectedAt = connection;
           user.save()
-          res.cookie('access_token', jwt.sign({ email: user.email, name: user.name, surname: user.surname, role: user.role, address: user.address, _id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3600s' }))
+          res.cookie('access_token', jwt.sign({ email: user.email, name: user.name, surname: user.surname, role: user.role, address: user.address, _id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "3600s" }))
+          res.cookie('customerId', user._id.valueOf(), { expiresIn: "3600s" })
         }
         return res.json({"response": true, "answer": "Connecté !"});
       } else {

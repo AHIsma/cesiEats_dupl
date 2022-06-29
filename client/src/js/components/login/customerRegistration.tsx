@@ -54,9 +54,9 @@ export const CustomerRegistration = (props :any) => {
 		};
 		console.log("Created payload!");
 		try {
-			await LoginService.create(payload);
+			await LoginService.createAccount(payload);
 			console.log("Successfully registered");
-			navigate("/welcome");
+			navigate("/customer/signIn");
 		} catch (err) {
 			console.error("Error when registering new customer => ", err);
 		}

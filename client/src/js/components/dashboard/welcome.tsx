@@ -42,7 +42,7 @@ export const Welcome = () => {
 		    							<Button
 		    								variant="primary"
 		    								onClick={() =>
-		    									handleClick("/customerSignin")
+		    									handleClick("/customer/signin")
 		    								}
 		    								className="wel-btn"
 		    							>
@@ -53,7 +53,7 @@ export const Welcome = () => {
 		    							<Button
 		    								variant="primary"
 		    								onClick={() =>
-		    									handleClick("/customerSignup")
+		    									handleClick("/customer/signup")
 		    								}
 		    								className="wel-btn"
 		    							>

@@ -1,8 +1,8 @@
 import http from "../../http-common";
 
 
-const createAccount = (attrs :any) => {
-  return http.post("/users/add", attrs).catch(function (error) {
+const getCustomer = (attrs :any) => {
+  return http.get("/users/"+attrs, attrs).catch(function (error) {
       if (error.response) {
         // Request made and server responded
         console.log(error.response.data);
@@ -22,8 +22,8 @@ const createAccount = (attrs :any) => {
   );
 };
 
-const signIn = (attrs :any) => {
-  return http.post("/users/login", attrs).catch(function (error) {
+const getCustomerAdresses = (attrs :any) => {
+  return http.get("/users/:id/adresses", attrs).catch(function (error) {
       if (error.response) {
         // Request made and server responded
         console.log(error.response.data);
@@ -43,8 +43,29 @@ const signIn = (attrs :any) => {
   );
 };
 
-const LambdaService = {
-  createAccount,
-  signIn
+const updateCustomer = (attrs :any) => {
+  return http.put("/users/:id", attrs).catch(function (error) {
+      if (error.response) {
+        // Request made and server responded
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+        throw(error);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log(error.request);
+        throw(error);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+        throw(error);
+      };
+    }
+  );
 };
-export default LambdaService;
+const CustomerService = {
+    getCustomer,
+    getCustomerAdresses,
+    updateCustomer
+};
+export default CustomerService;

@@ -19,8 +19,7 @@ async function verifyUser(req,res) {
     if(req.cookies['access_token'] !== undefined) {
         const token = jwt.verify(req.cookies['access_token'], process.env.ACCESS_TOKEN_SECRET)
         if (token) {
-            if (token.role === 'admin' || user._id === req.params.id) return true
-            return false;
+            return true;
         }
     } else {
         return false;
@@ -32,7 +31,7 @@ async function verifyRestaurant(req,res) {
     if(req.cookies['access_token'] !== undefined) {
         const token = jwt.verify(req.cookies['access_token'], process.env.ACCESS_TOKEN_SECRET)
         if (token) {
-            if (token.role === 'restaurant' || user._id === req.params.id || token.role === 'admin') return true
+            if (token.role === 'restaurant' || token.role === 'admin') return true
             return false;
         }
     } else {
@@ -45,7 +44,7 @@ async function verifyDeliverer(req,res) {
     if(req.cookies['access_token'] !== undefined) {
         const token = jwt.verify(req.cookies['access_token'], process.env.ACCESS_TOKEN_SECRET)
         if (token) {
-            if (token.role === 'deliverer' || user._id === req.params.id || token.role === 'admin') return true
+            if (token.role === 'deliverer' || token.role === 'admin') return true
             return false;
         }
     } else {

@@ -15,12 +15,12 @@ var restaurantsRouter = require('./routes/restaurants');
 var blacklistedtokensRouter = require('./routes/blacklistedTokens');
 
 var app = express();
+app.use(cors({origin: true, credentials: true}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.options('*', cors())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

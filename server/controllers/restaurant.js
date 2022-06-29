@@ -37,10 +37,10 @@ const findRestaurant = async (req, res) => {
     .catch(err => res.status(400).json({"response": false, "answer": err.message}));  
 };
 
-const findRestaurants = async(req, res) => {
-    await Restaurants.find()
-    .then(restaurants => {if(restaurants !== "[]") res.json({"response": true, "answer": restaurants}); else res.status(404).json({"response": false, "answer": "Aucun restaurant n'est disponible dans la collection."})})
-    .catch(err => res.status(400).json({"response": false, "answer": err.message})); 
+const findRestaurants = async(_req, res) => {
+    await Restaurants.find({city : _req.params.city})
+    .then(restaurants => {if(restaurants) res.json({"response": true, "answer": restaurants}); else res.status(400).json({"response": false, "answer": "Aucun restaurant n'est disponible dans la collection."})})
+    .catch(err => res.status(400).json({"response": false, "answer": err.message}));   
 };
 
 const filterRestaurants = async(req, res) => {
