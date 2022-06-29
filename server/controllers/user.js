@@ -19,10 +19,14 @@ const createUser = async (req, res) => {
     var newUser = new Users(req.body)
     newUser.password = bcrypt.hashSync(req.body.password, 10);
     newUser.sponsorCode = "cesiEats-" + makeid(6).toUpperCase();
-    if (req.body.hasbeenSponsored === 'true') {
-      var userSponsor = await Users.findOne({sponsorCode: req.body.usedSponsorCode})
-      if(userSponsor) {
-        newUser.sponsor = userSponsor._id;
+    if (req.body.hasbeenSponsored === true) {
+      if (req.body.usedSponsorCode && req.body.usedSponsorCode !== "") {
+        var userSponsor = await Users.findOne({sponsorCode: req.body.usedSponsorCode})
+        if(userSponsor) {
+          newUser.sponsor = userSponsor._id;
+        }
+      } else {
+        return res.status(400).json({"response": false, "answer": "Si vous êtes sponsorisé, vous devez renseigner un code sponsor."});
       }
     }
     newUser.save()
@@ -92,7 +96,7 @@ const sign_in = function(req, res) {
         }
         return res.json({"response": true, "answer": "Connecté !"});
       } else {
-        return res.status(401).json({"response": false, "answer":"L'opération à échouée." });
+        return res.status(401).json({"response": false, "answer":"Cet utilisateur n'existe pas dans notre base de données." });
       }
     });
   };

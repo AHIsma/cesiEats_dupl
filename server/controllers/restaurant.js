@@ -33,15 +33,65 @@ const deleteRestaurant = async (req, res) => {
 // R (Read) avec retour requis
 const findRestaurant = async (req, res) => {
     await Restaurants.findById(req.params.id)
-    .then(restaurant => {if(restaurant !== null) res.json({"response": true, "answer": restaurant}); else res.status(400).json({"response": false, "answer": "Le restaurant que vous recherchez n'existe pas."})})
+    .then(restaurant => {if(restaurant !== null) res.json({"response": true, "answer": restaurant}); else res.status(404).json({"response": false, "answer": "Le restaurant que vous recherchez n'existe pas."})})
     .catch(err => res.status(400).json({"response": false, "answer": err.message}));  
 };
 
-const findRestaurants = async(_req, res) => {
+const findRestaurants = async(req, res) => {
     await Restaurants.find()
-    .then(restaurants => {if(restaurants === "[]") res.json({"response": true, "answer": restaurants}); else res.status(400).json({"response": false, "answer": "Aucun restaurant n'est disponible dans la collection."})})
-    .catch(err => res.status(400).json({"response": false, "answer": err.message}));   
+    .then(restaurants => {if(restaurants !== "[]") res.json({"response": true, "answer": restaurants}); else res.status(404).json({"response": false, "answer": "Aucun restaurant n'est disponible dans la collection."})})
+    .catch(err => res.status(400).json({"response": false, "answer": err.message})); 
 };
 
+const filterRestaurants = async(req, res) => {
+    if(req.body.sortParams) {
+        if(req.body.sortParams === "alphabetical") {
+        await Restaurants.find().sort({name: "asc"})
+        .then(restaurants => {if(restaurants !== "[]") res.json({"response": true, "answer": restaurants}); else res.status(404).json({"response": false, "answer": "Aucun restaurant n'est disponible dans la collection."})})
+        .catch(err => res.status(400).json({"response": false, "answer": err.message}));  
+        } else if (req.body.sortParams === "priceAsc") {
+            Restaurants.aggregate([
+                { "$addFields": {
+                  "avg_price": {
+                    "$avg": {
+                      "$map": { 
+                        "input": "$dishes",
+                        "as": "el",
+                        "in": "$$el.price"
+                      }
+                    }
+                  }
+                }},
+                { "$sort": { "avg_price": 1 } }
+              ],function(err, results) {
+                res.send(results)
+              })
+        } else if (req.body.sortParams === "priceDesc") {
+            Restaurants.aggregate([
+                { "$addFields": {
+                  "avg_price": {
+                    "$avg": {
+                      "$map": { 
+                        "input": "$dishes",
+                        "as": "el",
+                        "in": "$$el.price"
+                      }
+                    }
+                  }
+                }},
+                { "$sort": { "avg_price": +1 } }
+              ],function(err, results) {
+                res.send(results)
+              })
+        } else if (req.body.sortParams === "category") {
+            await Restaurants.find({category: req.body.sortParams['category'].value})
+            .then(restaurants => {if(restaurants === "[]") res.json({"response": true, "answer": restaurants}); else res.status(400).json({"response": false, "answer": "Aucun restaurant n'est disponible dans la collection."})})
+            .catch(err => res.status(400).json({"response": false, "answer": err.message})); 
+        }
+    } else {
+        res.status(400).json({"response": false, "answer": "Vous n'avez pas fourni de paramètres de tri."});
+    }
+}
 
-module.exports = { createRestaurant, updateRestaurant, deleteRestaurant, findRestaurant, findRestaurants }
+
+module.exports = { createRestaurant, updateRestaurant, deleteRestaurant, findRestaurant, findRestaurants, filterRestaurants }
