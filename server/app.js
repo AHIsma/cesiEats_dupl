@@ -12,7 +12,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var ordersRouter = require('./routes/orders');
 var restaurantsRouter = require('./routes/restaurants');
-var dishesRouter = require('./routes/dishes');
 var blacklistedtokensRouter = require('./routes/blacklistedTokens');
 
 var app = express();
@@ -32,7 +31,6 @@ app.use('/api/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/orders', ordersRouter);
 app.use('/api/restaurants', restaurantsRouter);
-app.use('/api/dishes', dishesRouter);
 app.use('/api/blacklistedtoken', blacklistedtokensRouter)
 
 // Mongoose Login
