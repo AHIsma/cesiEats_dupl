@@ -1,8 +1,7 @@
 import http from "../../http-common";
 
-
 const getRestaurants = (attrs :any) => {
-  return http.get("/restaurants/" + attrs).catch(function (error) {
+  return http.get("/restaurants/" + attrs, attrs).catch(function (error) {
       if (error.response) {
         // Request made and server responded
         console.log(error.response.data);
@@ -21,6 +20,7 @@ const getRestaurants = (attrs :any) => {
     }
   );
 };
+
 const getFavoriteRestaurants = (attrs :any) => {
   return http.get("/restaurants/favorites/:id", attrs).catch(function (error) {
       if (error.response) {

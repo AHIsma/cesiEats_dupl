@@ -58,9 +58,10 @@ export const CustomerDashboard = (props :any) => {
 	const fetchRestaurants = async () => {
 		const currLocation = await fetchCustomerLocation();
 		console.log("Fetched location => ", currLocation);
-		setLocation(currLocation);
+		setLocation(currLocation	);
 		console.log("About to fetch restaurants");
 		try {
+			console.log(currLocation)
 			const response = await RestaurantService.getRestaurants(currLocation);
 			console.log(response);
 			setRestaurants(response.data.answer);
@@ -81,7 +82,7 @@ export const CustomerDashboard = (props :any) => {
 		try {
 			console.log("CUST ID ", customerId);
 			const response = await CustomerService.getCustomer(customerId);
-			console.log(response.data);
+			console.log(response.data.answer.city);
 			setLocation(response.data.answer.city);
 			return response.data.answer.city;
 		} catch (err) {

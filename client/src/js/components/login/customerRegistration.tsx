@@ -47,7 +47,7 @@ export const CustomerRegistration = (props :any) => {
 			street: street,
 			apt: apt,
 			city: city, 
-			zipCode: zipcode,
+			zipcode: zipcode,
 			state: state,
 			country: "United States",
 			type: "default",

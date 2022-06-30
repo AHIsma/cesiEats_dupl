@@ -20,7 +20,7 @@ export const Welcome = () => {
 		    			<Card
 		    				className="card"
 		    			>
-		    				<Card.Body>
+		    				<Card.Body className="d-flex flex-column align-items-center">
 		    					<Card.Title
 		    						style={{
 		    							color: "white",
@@ -36,15 +36,15 @@ export const Welcome = () => {
 		    						Order breakfast, lunch and dinner.
 		    					</Card.Text>
 
-		    					<Row>
-		    						<Col>
+		    					<Row className="align-items-center d-flex w-100">
+		    						<Col >
 		    							``
 		    							<Button
 		    								variant="primary"
 		    								onClick={() =>
 		    									handleClick("/customer/signin")
 		    								}
-		    								className="wel-btn"
+											className="align-self-center"
 		    							>
 		    								Login.
 		    							</Button>
@@ -55,7 +55,7 @@ export const Welcome = () => {
 		    								onClick={() =>
 		    									handleClick("/customer/signup")
 		    								}
-		    								className="wel-btn"
+											className="align-self-center"
 		    							>
 		    								Sign up.
 		    							</Button>
