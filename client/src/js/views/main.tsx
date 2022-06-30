@@ -4,8 +4,10 @@ import { Welcome }  from "../components/dashboard/welcome";
 import { CustomerSignup } from "../views/login/customerSignUp";
 import { CustomerSignin } from "../views/login/customerSignIn";
 import NavBar from "../components/navBar/navBar";
-// import { RestaurantSignup } from "./RestaurantSignup/RestaurantSignup.page";
-// import { RestaurantSignin } from "./Login/RestaurantLogin.page";
+//import { RestaurantRegistration } from "../components/login/restaurantRegistration";
+import { RestaurantSignup } from "../views/login/restaurantSignup";
+
+// import { RestaurantSignin } from "./Login/RestaurantLogin";
 // import { RestaurantDetails } from "./Ordering/RestaurantDetails.page";
 // import { OrderSummary } from "../components/dashboard/OrderSummary";
 // import { RestaurantDashboard } from "../components/dashboard/RestaurantDashboard";
@@ -30,6 +32,7 @@ export default class Main extends Component {
 					<Route path="/welcome" element={<Welcome />} />
 					<Route path="/customerSignup" element={<CustomerSignup />}  />
 					<Route path="/customerSignin" element={<CustomerSignin />}  />
+					<Route path="restaurantSignup" element={<RestaurantSignup/>} />
 					<Route
             			path="*"
             			element={
