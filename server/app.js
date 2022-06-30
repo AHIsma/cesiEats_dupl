@@ -6,6 +6,8 @@ var mongoose = require('mongoose');
 var cors = require('cors')
 require('dotenv').config();
 
+var cors = require('cors');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var ordersRouter = require('./routes/orders');
