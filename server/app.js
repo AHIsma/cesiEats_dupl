@@ -23,16 +23,18 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/orders', ordersRouter);
 app.use('/api/restaurants', restaurantsRouter);
-app.use('/api/blacklistedtoken', blacklistedtokensRouter)
+app.use('/api/blacklistedtoken', blacklistedtokensRouter);
 
 // Mongoose Login
-mongoose.connect(process.env.MONGODB_URL);
+mongoose.connect(process.env.MONGODB_URL, {
+  sslCert: "mdbcert.pem",
+  sslKey: "mdbcert.pem",
+});
 
 // SQL Server Login
 var Connection = require('tedious').Connection;  
