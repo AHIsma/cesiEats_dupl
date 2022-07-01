@@ -25,7 +25,7 @@ export const CustomerSignIn = (props :any) => {
 		e.preventDefault();
 
 		const payload = {
-			emailId: emailId,
+			email: emailId,
 			password: password,
 		};
 
@@ -102,7 +102,7 @@ export const CustomerSignIn = (props :any) => {
 										}}
 									>
 										<Link
-											to="customerSignup"
+											to="/customer/signUp"
 											className="submit-button"
 										>
 											New user?

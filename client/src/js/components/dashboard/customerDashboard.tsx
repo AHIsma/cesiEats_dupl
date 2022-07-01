@@ -18,6 +18,7 @@ import "./customerDashboard.scss";
 import CustomerService from "../../services/customerService";
 import RestaurantService from "../../services/restaurantService";
 import SearchService from "../../services/searchService";
+import NavBar from "../navBar/navBar";
 
 export const CustomerDashboard = (props :any) => {
 	const customerId = cookie.load("customerId");
@@ -36,7 +37,7 @@ export const CustomerDashboard = (props :any) => {
 	const [restaurants, setRestaurants] = useState<any[]>([]);
 	const [displayRestaurants, setDisplayRestaurants] = useState<any[]>([])
 	const [searchedRestaurants, setSearchedRestaurants] = useState<any[]>([])
-	const [location, setLocation] = useState<any[]>([])
+	const [location, setLocation] = useState<string>("")
 
 	const [searchInput, setSearchInput] = useState("");
 
@@ -49,16 +50,16 @@ export const CustomerDashboard = (props :any) => {
 	const componentIsMounted = useRef(true);
 
 	useEffect(() => {
-		// each useEffect can return a cleanup function
-		return () => {
-			componentIsMounted.current = false;
-		};
-	}, []);
+		NavBar.setLogged({
+			logged: true,
+			location: location
+		});
+	}, [location]);
 
 	const fetchRestaurants = async () => {
 		const currLocation = await fetchCustomerLocation();
 		console.log("Fetched location => ", currLocation);
-		setLocation(currLocation	);
+		setLocation(currLocation);
 		console.log("About to fetch restaurants");
 		try {
 			console.log(currLocation)
@@ -290,10 +291,6 @@ export const CustomerDashboard = (props :any) => {
 		window.location.reload();
 	};
 
-	const logoutHandler = () => {
-		cookie.remove("customerId");
-	};
-
 	// const addToFavorite = (restaurantId) => async (e :any) => {
 	// 	const payload = {
 	// 		restaurantId: restaurantId,
@@ -374,49 +371,26 @@ export const CustomerDashboard = (props :any) => {
 	return (
 		<Container
 			fluid
-			style={{ backgroundColor: "whitesmoke", height: "500vh" }}
+			className="p-0"
+			style={{ backgroundColor: "whitesmoke"}}
 		>
-			<Navbar
-				collapseOnSelect
-				expand="sm"
-				bg="light"
-				variant="light"
-				className="mb-3"
-			>
-				<Navbar.Brand as={Link} to="/dashboard">
-				</Navbar.Brand>
-				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
-				<Navbar.Collapse id="responsive-navbar-nav"></Navbar.Collapse>
-				<Button
-					style={{
-						color: "white",
-						backgroundColor: "black",
-						border: "black",
-					}}
-				>
-					Location | {location}
-				</Button>
-				<Form className="mx-3">
-					<ButtonGroup>
-						<Button variant="secondary">
-						<Link
-							to="/welcome"
-							style={{
-								color: "white",
-								backgroundColor: "black",
-								border: "black",
-							}}
-							onClick={logoutHandler}
-						/>
-							Logout
-						</Button>
-					</ButtonGroup>
-				</Form>
-			</Navbar>
+			<Row className="p-2 w-100 justify-content-center">
+				<Nav className="d-flex flex-row justify-content-center w-50 p-0 h-100">
+					<Nav.Link href={profileLink} className="btn mx-4 m-auto" style={{ backgroundColor: "#139CA8", color: "white" }}>
+						Profile
+					</Nav.Link>
+					<Nav.Link href={favoritesLink} className="btn mx-4 m-auto" style={{ backgroundColor: "#139CA8", color: "white" }}>
+						Favorites
+					</Nav.Link>
+					<Nav.Link href={pastOrdersLink} className="btn mx-4 m-auto" style={{ backgroundColor: "#139CA8", color: "white" }}>
+						Your orders
+					</Nav.Link>
+				</Nav>
+			</Row>
 
-			<Form style={{ paddingLeft: "450px" }}>
-				<Row>
-					<Col className="mt-4" md={6}>
+			<Row className="d-flex justify-content-center">
+			<Form className="w-50 d-flex justify-content-center">
+					<Col className="" md={6}>
 						<FormControl
 							placeholder="Search here..."
 							onChange={(e :any) => {
@@ -428,86 +402,52 @@ export const CustomerDashboard = (props :any) => {
 					<Col>
 						<Button
 							onClick={searchHandler}
-							className="mt-4"
+							className="mx-3 px-2"
 							style={{
-								marginRight: "10px",
-								backgroundColor: "white",
+								backgroundColor: "#139CA8",
 								border: "black",
-								color: "black",
+								color: "white",
 							}}
 						>
 							Search
 						</Button>
-					</Col>
-					<Col>
 						<Button
 							onClick={resetHandler}
-							className="mt-4"
+							className="mx-3 px-3"
 							style={{
-								marginRight: "10px",
-								backgroundColor: "white",
+								backgroundColor: "#139CA8",
 								border: "black",
-								color: "black",
+								color: "white",
 							}}
 						>
 							Reset
 						</Button>
 					</Col>
-				</Row>
 			</Form>
+			</Row>
 
-			<Nav className="flex-column">
-				<Nav.Link href={profileLink} style={{ color: "black" }}>
-					Profile
-				</Nav.Link>
-				<Nav.Link href={favoritesLink} style={{ color: "black" }}>
-					Favorites
-				</Nav.Link>
-				<Nav.Link href={pastOrdersLink} style={{ color: "black" }}>
-					Your orders
-				</Nav.Link>
-			</Nav>
-
-			<Container
-				style={{
-					alignContent: "center",
-					alignItems: "center",
-					marginTop: "5rem",
-					marginRight: "35vh",
-					width: "50rem",
-				}}
+			<Container className="py-2"
 			>
-				<ButtonGroup>
-					<Button
+				<ButtonGroup className="row w-100 d-flex flex-row">
+					<Button className="col-sm-1 mx-2 btn br-3"
 						style={{
-							marginRight: "10px",
-							backgroundColor: "white",
-							border: "black",
-							color: "black",
+							backgroundColor: "#0D6D75",
 						}}
 						id="veg"
 						onClick={vegSelectHandler}
 					>
 						Veg
 					</Button>
-					<Button
-						style={{
-							marginRight: "10px",
-							backgroundColor: "white",
-							border: "black",
-							color: "black",
+					<Button className="col-sm-1 mx-2 btn br-3" style={{
+							backgroundColor: "#0D6D75", border: "black"
 						}}
 						id="nonVeg"
 						onClick={nonVegSelectHandler}
 					>
 						Non-veg
 					</Button>
-					<Button
-						style={{
-							marginRight: "10px",
-							backgroundColor: "white",
-							border: "black",
-							color: "black",
+					<Button className="col-sm-1 mx-2 btn br-3" style={{
+							backgroundColor: "#0D6D75", border: "black"
 						}}
 						id="vegan"
 						onClick={veganSelectHandler}
@@ -515,12 +455,8 @@ export const CustomerDashboard = (props :any) => {
 						Vegan
 					</Button>
 
-					<Button
-						style={{
-							marginRight: "10px",
-							backgroundColor: "white",
-							border: "black",
-							color: "black",
+					<Button className="col-sm-1 mx-2 btn br-3" style={{
+							backgroundColor: "#0D6D75", border: "black"
 						}}
 						id="pickup"
 						onClick={pickupSelectHandler}
@@ -528,12 +464,8 @@ export const CustomerDashboard = (props :any) => {
 						Pick-up
 					</Button>
 
-					<Button
-						style={{
-							marginRight: "10px",
-							backgroundColor: "white",
-							border: "black",
-							color: "black",
+					<Button className="col-sm-1 mx-2 btn br-3" style={{
+							backgroundColor: "#0D6D75", border: "black"
 						}}
 						id="delivery"
 						onClick={deliverySelectHandler}

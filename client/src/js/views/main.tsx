@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { Welcome }  from "../components/dashboard/welcome";
-import { CustomerSignup } from "../views/login/customerSignUp";
-import { CustomerSignin } from "../views/login/customerSignIn";
+import { CustomerSignup } from "./login/customerSignUp";
+import { CustomerSignin } from "./login/customerSignIn";
 import { CustomerDashboard } from "../components/dashboard/customerDashboard";
 import NavBar from "../components/navBar/navBar";
 // import { RestaurantSignup } from "./RestaurantSignup/RestaurantSignup.page";

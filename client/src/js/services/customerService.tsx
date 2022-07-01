@@ -63,6 +63,7 @@ const updateCustomer = (attrs :any) => {
     }
   );
 };
+
 const CustomerService = {
     getCustomer,
     getCustomerAdresses,

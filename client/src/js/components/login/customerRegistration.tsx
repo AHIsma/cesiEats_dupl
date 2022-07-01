@@ -40,12 +40,13 @@ export const CustomerRegistration = (props :any) => {
 		const payload = {
 			firstName: firstName,
 			lastName: lastName,
-			emailId: emailId,
+			email: emailId,
+			role: "client",
 			password: password,
 			dob: dob,
 			phone: String(mobileNumber),
 			street: street,
-			apt: apt,
+			streetNo: apt,
 			city: city, 
 			zipcode: zipcode,
 			state: state,
@@ -242,7 +243,7 @@ export const CustomerRegistration = (props :any) => {
 										}}
 									>
 										<Link
-											to="customerSignin"
+											to="/customer/signIn"
 											className="submit-button"
 										>
 											Go to login
