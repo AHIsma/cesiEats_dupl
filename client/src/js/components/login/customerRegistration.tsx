@@ -22,31 +22,27 @@ export const CustomerRegistration = (props :any) => {
 
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
-	const [dateOfBirth, setDateOfBirth] = useState("mm-dd-yyyy");
 	const [mobileNumber, setMobileNumber] = useState("");
 	const [street, setStreet] = useState("");
-	const [apt, setApt] = useState("");
+	const [streetNo, setStreetNo] = useState("");
 	const [city, setCity] = useState("");
 	const [state, setState] = useState("");
 	const [zipcode, setZipcode] = useState("");
-	const [emailId, setEmail] = useState("");
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const createAccount = async (e :any) => {
 		e.preventDefault();
-		console.log("Before ", dateOfBirth);
-		const dob = new Date(dateOfBirth);
-		console.log("After ", dob);
 		const payload = {
 			firstName: firstName,
 			lastName: lastName,
-			emailId: emailId,
+			email: email,
 			password: password,
-			dob: dob,
 			phone: String(mobileNumber),
 			street: street,
-			apt: apt,
-			city: city, 
+			streetNo: streetNo,
+			city: city,
+			role: "admin",
 			zipcode: zipcode,
 			state: state,
 			country: "United States",
@@ -99,18 +95,6 @@ export const CustomerRegistration = (props :any) => {
 						</FormGroup>
 
 						<FormGroup className="mt-3">
-							<FormLabel>Date of Birth: </FormLabel>
-							<FormControl
-								type="date"
-								name="dateOfBirth"
-								onChange={(e) => {
-									setDateOfBirth(e.target.value);
-								}}
-								required
-							/>
-						</FormGroup>
-
-						<FormGroup className="mt-3">
 							<FormLabel>Mobile Number: </FormLabel>
 							<FormControl
 								type="tel"
@@ -127,7 +111,7 @@ export const CustomerRegistration = (props :any) => {
 							<FormLabel>Street: </FormLabel>
 							<FormControl
 								type="text"
-								placeholder="eg. 1234 Main St"
+								placeholder="eg. Main St"
 								onChange={(e) => {
 									setStreet(e.target.value);
 								}}
@@ -135,12 +119,12 @@ export const CustomerRegistration = (props :any) => {
 						</FormGroup>
 
 						<FormGroup className="mt-3">
-							<FormLabel>Apartment: </FormLabel>
+							<FormLabel>Street Nr. </FormLabel>
 							<FormControl
 								type="text"
-								placeholder="eg. Apartment, studio, or floor"
+								placeholder="eg. 5J or 52"
 								onChange={(e) => {
-									setApt(e.target.value);
+									setStreetNo(e.target.value);
 								}}
 							/>
 						</FormGroup>
@@ -195,14 +179,14 @@ export const CustomerRegistration = (props :any) => {
 						</Row>
 
 						<FormGroup className="mt-3">
-							<FormLabel>Email ID: </FormLabel>
+							<FormLabel>Email: </FormLabel>
 							<FormControl
 								type="email"
-								name="emailId"
+								name="email"
 								onChange={(e) => {
 									setEmail(e.target.value);
 								}}
-								placeholder="XXX-XXX-XXXX"
+								placeholder="john.doe@example.com"
 								required
 							/>
 						</FormGroup>

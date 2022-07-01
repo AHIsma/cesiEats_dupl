@@ -12,12 +12,13 @@ import {
 	FormGroup,
 } from "react-bootstrap";
 import LoginService from "../../services/loginService";
+import { ToastContainer, toast } from 'react-toastify';
 import "./customerLogin.scss";
 
 export const CustomerSignIn = (props :any) => {
 	const navigate = useNavigate();
 
-	const [emailId, setEmail] = useState("");
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [message, setMessage] = useState("");
 
@@ -25,25 +26,41 @@ export const CustomerSignIn = (props :any) => {
 		e.preventDefault();
 
 		const payload = {
-			emailId: emailId,
+			email: email,
 			password: password,
 		};
 
 		console.log("Created payload! => ", JSON.stringify(payload));
 		try {
-			const response = await LoginService.signIn(payload);
-			console.log(response);
-			console.log("Successfully login");
-
-			navigate("/customer/dashboard");
+			toast.promise(
+                LoginService.signIn(payload),
+                {
+                    pending: {
+                        render(){
+                            return "Connecting....";
+                        },
+                        icon: false
+                    },
+                    success: {
+                        render() {
+							navigate("/customer/dashboard");
+							return "Logged in successfully !"
+                        },  
+                    },
+                    error: {
+                        render() {
+                            return "Something seems to be incorrect. Please try again.";
+                            }
+                    }
+            });
 		} catch (err) {
 			console.error("Error when logging in the customer => ", err);
-			setMessage("Invalid credentials!");
+			toast.error("Invalid credentials. Please try again.");
 		}
 	};
 
 	return (
-		<Container fluid className="container 	">
+		<Container fluid className="container">
 			<Row className="d-flex justify-content-center text-center w-100 m-auto">
 				<Col className="col-md-3">
 					<h1 className="text">Login to eat with cesiEats</h1>
@@ -54,10 +71,10 @@ export const CustomerSignIn = (props :any) => {
 				<Col className="col-md-3">
 					<Form onSubmit={(e) => loginToAccount(e)}>
 						<FormGroup className="mb-3">
-							<FormLabel className="labels">Email ID: </FormLabel>
+							<FormLabel className="labels">Email: </FormLabel>
 							<FormControl
 								type="email"
-								name="emailId"
+								name="email"
 								onChange={(e) => {
 									setEmail(e.target.value);
 								}}
@@ -116,6 +133,7 @@ export const CustomerSignIn = (props :any) => {
 					</Form>
 				</Col>
 			</Row>
+			<ToastContainer />
 		</Container>
 	);
 };

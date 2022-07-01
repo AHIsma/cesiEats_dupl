@@ -21,9 +21,9 @@ import SearchService from "../../services/searchService";
 
 export const CustomerDashboard = (props :any) => {
 	const customerId = cookie.load("customerId");
-	const profileLink = `/profile/${customerId}`;
-	const favoritesLink = `/favorites/${customerId}`;
-	const pastOrdersLink = `/viewOrders/${customerId}`;
+	const profileLink = `profile/${customerId}`;
+	const favoritesLink = `favorites/${customerId}`;
+	const pastOrdersLink = `viewOrders/${customerId}`;
 	const navigate = useNavigate();
 	console.log(cookie.loadAll())
 	if (!cookie.load("customerId")) {
@@ -58,11 +58,11 @@ export const CustomerDashboard = (props :any) => {
 	const fetchRestaurants = async () => {
 		const currLocation = await fetchCustomerLocation();
 		console.log("Fetched location => ", currLocation);
-		setLocation(currLocation	);
+		setLocation(currLocation);
 		console.log("About to fetch restaurants");
 		try {
 			console.log(currLocation)
-			const response = await RestaurantService.getRestaurants(currLocation);
+			const response = await RestaurantService.getRestaurants({city: currLocation});
 			console.log(response);
 			setRestaurants(response.data.answer);
 			setDisplayRestaurants(response.data.answer);

@@ -4,6 +4,7 @@ import { Welcome }  from "../components/dashboard/welcome";
 import { CustomerSignup } from "../views/login/customerSignUp";
 import { CustomerSignin } from "../views/login/customerSignIn";
 import { CustomerDashboard } from "../components/dashboard/customerDashboard";
+import { CustomerProfile } from "../components/dashboard/customerProfile";
 import NavBar from "../components/navBar/navBar";
 // import { RestaurantSignup } from "./RestaurantSignup/RestaurantSignup.page";
 // import { RestaurantSignin } from "./Login/RestaurantLogin.page";
@@ -16,7 +17,7 @@ import NavBar from "../components/navBar/navBar";
 // import { RestaurantOrders } from "../components/Orders/RestaurantOrders";
 // import { CustomerFavorites } from "../components/dashboard/CustomerFavorites";
 // import { CustomerOrders } from "../components/Orders/CustomerOrders";
-// import { CustomerProfile } from "../components/Profile/CustomerProfile";
+
 //Main Component for routing all components
 
 export default class Main extends Component {
@@ -31,6 +32,7 @@ export default class Main extends Component {
 					<Route path="/customer/signUp" element={<CustomerSignup />}  />
 					<Route path="/customer/signIn" element={<CustomerSignin />}  />
 					<Route path="/customer/dashboard" element={<CustomerDashboard />}  />
+					<Route path="/customer/profile/:id" element={<CustomerProfile />}  />
 					<Route
             			path="*"
             			element={

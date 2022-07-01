@@ -1,13 +1,11 @@
 import http from "../../http-common";
 
-
 const getCustomer = (attrs :any) => {
   return http.get("/users/"+attrs, attrs).catch(function (error) {
       if (error.response) {
         // Request made and server responded
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
+        alert("Your session has expired. Please log in again.");
+        document.location.href = "http://localhost:3000/customer/signin";
         throw(error);
       } else if (error.request) {
         // The request was made but no response was received
@@ -23,7 +21,7 @@ const getCustomer = (attrs :any) => {
 };
 
 const getCustomerAdresses = (attrs :any) => {
-  return http.get("/users/:id/adresses", attrs).catch(function (error) {
+  return http.get("/users/:id", attrs).catch(function (error) {
       if (error.response) {
         // Request made and server responded
         console.log(error.response.data);
@@ -43,8 +41,8 @@ const getCustomerAdresses = (attrs :any) => {
   );
 };
 
-const updateCustomer = (attrs :any) => {
-  return http.put("/users/:id", attrs).catch(function (error) {
+const updateCustomer = (id: Number, attrs :any) => {
+  return http.put("/users/update/" + id, attrs).catch(function (error) {
       if (error.response) {
         // Request made and server responded
         console.log(error.response.data);

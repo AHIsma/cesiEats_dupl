@@ -9,25 +9,29 @@ const createRestaurant = async (req, res) => {
 };
 
 const updateRestaurant = async (req, res) => {
-    const verification = await helpers.verifyRestaurant(req,res);
+    const verification = await helpers.verifyRestaurant(req);
     if (verification) {
         await Restaurants.findByIdAndUpdate(req.params.id, req.body)
         .then(() => res.json({"response": true, "answer": "Restaurant mis à jour dans la collection."}))
         .catch(err => res.status(400).json({"response": false, "answer": err.message}));
+    } else if (verification === "expired") {
+      return res.status(401).json({'response': false, "answer": "Vous ne pouvez accéder à cette ressource, vos droits d'accès ont expiré." })
     } else {
-        res.status(400).json({"response": false, "answer": "Vous n'êtes pas autorisé à consulter cette ressource."});
+      return res.status(401).json({'response': false, "answer": "Vous n'êtes pas autorisé à effectuer cette action." })
     }
 };
 
 const deleteRestaurant = async (req, res) => {
-    const verification = await helpers.verifyRestaurant(req,res);
+    const verification = await helpers.verifyRestaurant(req);
     if (verification) {
         await Restaurants.findByIdAndDelete(req.params.id)
         .then(() => res.json({"response": true, "answer": "Restaurant supprimé de la collection."}))
         .catch(err => res.status(400).json({"response": false, "answer": err.message}));
+    } else if (verification === "expired") {
+      return res.status(401).json({'response': false, "answer": "Vous ne pouvez accéder à cette ressource, vos droits d'accès ont expiré." })
     } else {
-        res.status(400).json({"response": false, "answer": "Vous n'êtes pas autorisé à consulter cette ressource."});
-    } 
+      return res.status(401).json({'response': false, "answer": "Vous n'êtes pas autorisé à effectuer cette action." })
+    }
 }
 
 // R (Read) avec retour requis
@@ -37,11 +41,17 @@ const findRestaurant = async (req, res) => {
     .catch(err => res.status(400).json({"response": false, "answer": err.message}));  
 };
 
-const findRestaurants = async(_req, res) => {
-    await Restaurants.find({city : _req.params.city})
-    .then(restaurants => {if(restaurants) res.json({"response": true, "answer": restaurants}); else res.status(400).json({"response": false, "answer": "Aucun restaurant n'est disponible dans la collection."})})
-    .catch(err => res.status(400).json({"response": false, "answer": err.message}));   
+const findRestaurants = async(req, res) => {
+    await Restaurants.find()
+    .then(restaurants => {if(restaurants !== "[]") res.json({"response": true, "answer": restaurants}); else res.status(404).json({"response": false, "answer": "Aucun restaurant n'est disponible dans la collection."})})
+    .catch(err => res.status(400).json({"response": false, "answer": err.message})); 
 };
+
+const findRestaurantsByLocation = async(req, res) => {
+  await Restaurants.find({city: req.body.city})
+  .then(restaurants => {if(restaurants !== "[]") res.json({"response": true, "answer": restaurants}); else res.status(404).json({"response": false, "answer": "Aucun restaurant n'est disponible dans la collection."})})
+  .catch(err => res.status(400).json({"response": false, "answer": err.message})); 
+}
 
 const filterRestaurants = async(req, res) => {
     if(req.body.sortParams) {
@@ -94,4 +104,4 @@ const filterRestaurants = async(req, res) => {
 }
 
 
-module.exports = { createRestaurant, updateRestaurant, deleteRestaurant, findRestaurant, findRestaurants, filterRestaurants }
+module.exports = { createRestaurant, updateRestaurant, deleteRestaurant, findRestaurant, findRestaurants, findRestaurantsByLocation, filterRestaurants }

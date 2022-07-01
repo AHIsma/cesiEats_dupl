@@ -100,7 +100,7 @@ export const OrderSummary = (props :any) => {
 			country: "United States",
 		};
 		try {
-			await CustomerService.updateCustomer(payload)
+			await CustomerService.updateCustomer(customerId, payload)
 		} catch (err) {
 			console.error("Error when registering new customer => ", err);
 		}

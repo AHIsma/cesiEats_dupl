@@ -36,7 +36,7 @@ const AccountMenu = () => {
                 height: 64,
                 }}
                 alt="cesiEatsLogo"
-                src="../Logo.png"
+                src="../Logo.svg"
             />
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             </Box>

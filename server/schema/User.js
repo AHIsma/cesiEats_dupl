@@ -3,13 +3,13 @@ var bcrypt = require('bcryptjs');
 var { Schema } = mongoose;
 
 var UserSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    surname: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
     email: { type: String, unique: true, lowercase: true, required: true, trim: true },
     password: { type: String, required: true },
     role: { type: String, required: true },
     street: { type: String, required: true },
-    streetNo: { type: Number, required: true },
+    streetNo: { type: String, required: true },
     city: { type: String, required: true },
     state: { type: String, required: false, default: null },
     // pas le choix, les codes postaux qui commencent par 0 
