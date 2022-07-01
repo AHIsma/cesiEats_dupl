@@ -4,6 +4,14 @@ import { Welcome }  from "../components/dashboard/welcome";
 import { CustomerSignup } from "../views/login/customerSignUp";
 import { CustomerSignin } from "../views/login/customerSignIn";
 import NavBar from "../components/navBar/navBar";
+import Footer from "../components/footer/footer";
+import { Typography } from '@mui/material';
+import { Stack } from '@mui/material';
+import { Link } from '@mui/material';
+import { Container } from '@mui/material';
+import Legal from "../components/legal/legal";
+import Contact from "../components/contact/contact";
+
 // import { RestaurantSignup } from "./RestaurantSignup/RestaurantSignup.page";
 // import { RestaurantSignin } from "./Login/RestaurantLogin.page";
 // import { RestaurantDetails } from "./Ordering/RestaurantDetails.page";
@@ -30,11 +38,13 @@ export default class Main extends Component {
 					<Route path="/welcome" element={<Welcome />} />
 					<Route path="/customerSignup" element={<CustomerSignup />}  />
 					<Route path="/customerSignin" element={<CustomerSignin />}  />
+					<Route path="/legal" element={<Legal />} />
+					<Route path="/contact" element={<Contact />} />
 					<Route
             			path="*"
             			element={
             			  <div>
-            			    <h2>404 Page not found (component error404 à faire)</h2>
+            			    <h2>404 Page not found</h2>
             			  </div>
             			}
 					/>
@@ -74,6 +84,10 @@ export default class Main extends Component {
 				<Route path="/restaurantMenu" component={RestaurantMenu} />
 				<Route path="/orders" component={RestaurantOrders} />
 				<Route path="/dishes/edit/:mealId" component={EditDish} /> */}
+				<Container sx={{
+					height: 50
+				}} />
+				<Footer />
 			</div>
 		);
 	}

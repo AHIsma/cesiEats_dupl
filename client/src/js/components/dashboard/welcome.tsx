@@ -46,7 +46,7 @@ export const Welcome = () => {
 		    								}
 		    								className="wel-btn"
 		    							>
-		    								Login.
+		    								Login
 		    							</Button>
 		    						</Col>
 		    						<Col>
@@ -57,7 +57,7 @@ export const Welcome = () => {
 		    								}
 		    								className="wel-btn"
 		    							>
-		    								Sign up.
+		    								Sign up
 		    							</Button>
 		    						</Col>
 		    					</Row>
@@ -96,7 +96,7 @@ export const Welcome = () => {
 		    								}
 		    								className="wel-btn"
 		    							>
-		    								Login.
+		    								Login
 		    							</Button>
 		    						</Col>
 		    						<Col>
@@ -107,7 +107,7 @@ export const Welcome = () => {
 		    								}
 		    								className="wel-btn"
 		    							>
-		    								Sign up.
+		    								Sign up
 		    							</Button>
 		    						</Col>
 		    					</Row>

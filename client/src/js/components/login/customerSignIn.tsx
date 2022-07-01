@@ -56,20 +56,6 @@ export const CustomerSignIn = (props :any) => {
 
 	return (
 		<Container fluid>
-			<Navbar bg="light">
-				<Container>
-					<Navbar.Brand href="/welcome">
-						<img
-							src="https://uber-eats-webapp-clone.s3.us-west-1.amazonaws.com/logo.svg"
-							width="150"
-							height="50"
-							className="d-inline-block align-top"
-							alt="UberEats logo"
-						/>
-					</Navbar.Brand>
-				</Container>
-			</Navbar>
-
 			<Row>
 				<Col>
 					<h1 className="text">Login to eat with UberEats</h1>

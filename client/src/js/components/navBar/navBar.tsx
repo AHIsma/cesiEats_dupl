@@ -14,7 +14,7 @@ export const NavBar = () => {
   	return (
   	  	<Navbar className="navbarContainer">
 			<Container>
-				<Navbar.Brand onClick={handleClick}>
+				<Navbar.Brand onClick={handleClick} href="/welcome">
 					<img
 						src="./Logo.png"
 						className="d-flex align-top icon"
