@@ -19,6 +19,8 @@ import CustomerService from "../../services/customerService";
 import RestaurantService from "../../services/restaurantService";
 import SearchService from "../../services/searchService";
 import NavBar from "../navBar/navBar";
+import { TempleBuddhist } from "@mui/icons-material";
+import { css } from "@emotion/react";
 
 export const CustomerDashboard = (props :any) => {
 	const customerId = cookie.load("customerId");
@@ -41,11 +43,7 @@ export const CustomerDashboard = (props :any) => {
 
 	const [searchInput, setSearchInput] = useState("");
 
-	const [vegState, setVegState] = useState(false);
-	const [nonVegState, setNonVegState] = useState(false);
-	const [veganState, setVeganState] = useState(false);
-	const [pickupState, setPickupState] = useState(false);
-	const [deliveryState, setDeliveryState] = useState(false);
+	const [filterState, setFilterState] = useState<any>();
 
 	const componentIsMounted = useRef(true);
 
@@ -66,7 +64,7 @@ export const CustomerDashboard = (props :any) => {
 			const response = await RestaurantService.getRestaurants(currLocation);
 			console.log(response);
 			setRestaurants(response.data.answer);
-			setDisplayRestaurants(response.data.answer);
+			setDisplayRestaurants(response.data.answer);	
 			setSearchedRestaurants(response.data.answer);
 			restaurants.map((item) => console.log(JSON.stringify(item)));
 		} catch (err) {
@@ -92,187 +90,60 @@ export const CustomerDashboard = (props :any) => {
 		}
 	};
 
-	const filteringHandler = (filters :any) => {
+	const filteringHandler = (filter :any, bool: boolean) => {
 		let temp :any[] = [];
-		console.log("incoming filters => ", filters);
 		searchedRestaurants.map((r) => console.log(JSON.stringify(r)));
+		temp = restaurants.filter((s) => {return s.category == filter})
+		console.log(temp)
 		if (
-			filters.veg === true ||
-			filters.nonVeg === true ||
-			filters.vegan === true 
+			temp.length && bool
 		) {
-			for (const r of searchedRestaurants) {
-				if (
-					(r.veg && filters.veg) ||
-					(r.nonVeg! && filters.nonVeg) ||
-					(r.vegan! && filters.vegan) 
-				) {
-					console.log("Pushing ", r.name);
-					temp.push(r);
-					setDisplayRestaurants(temp);
-				}
-			}
-		} else {
+			setDisplayRestaurants(temp); 
+		} else if (temp.length == 0 && filterState == filter) {
 			temp = restaurants;
 			setDisplayRestaurants(temp);
-			window.location.reload();
 		}
 	};
 
-	const vegSelectHandler = async () => {
-		const temp = document.getElementById("veg") || new HTMLSpanElement;
-		let payload = {
-			veg: vegState,
-			nonVeg: nonVegState,
-			vegan: veganState,
-			pickupState: pickupState,
-			deliveryState: deliveryState,
-		};
-		if (temp != null && temp.style.backgroundColor === "white") {
-			temp.style.backgroundColor = "black";
-			temp.style.color = "white";
-			temp.style.border = "black";
-			setVegState(true);
-			payload = { ...payload, veg: !vegState };
-			console.log(payload);
-			filteringHandler(payload);
-			console.log("Added veg filter");
-		} else if (temp != null) {
-			temp.style.backgroundColor = "white";
-			temp.style.color = "black";
-			temp.style.border = "black";
-			setVegState(false);
-			payload = { ...payload, veg: !vegState };
-			console.log(payload);
-			filteringHandler(payload);
-			console.log("Remove veg filter");
+	const filterHandler = (filtername: any) => {
+		let temp
+		let payload = [
+			"italien",
+			"chinois",
+			"kebab",
+			"koreen",
+			"libanais"
+		];
+
+		if (filterState == filtername) {
+			payload.map((p) => {
+				let temp = document.getElementById(p) || new HTMLSpanElement;
+				temp.style.backgroundColor = "#0D6D75",
+				temp.style.border = "black";
+				temp.style.color = "white";
+				setFilterState(null);
+				setDisplayRestaurants(restaurants);
+			})
+			return;
 		}
-	};
 
-	const nonVegSelectHandler = (e :any) => {
-		const temp = document.getElementById("nonVeg") || new HTMLSpanElement;
-		let payload = {
-			veg: vegState,
-			nonVeg: nonVegState,
-			vegan: veganState,
-			pickupState: pickupState,
-			deliveryState: deliveryState,
-		};
-		if (temp.style.backgroundColor === "white") {
-			temp.style.backgroundColor = "black";
-			temp.style.color = "white";
-			temp.style.border = "black";
-			setNonVegState(true);
-			payload = { ...payload, nonVeg: !nonVegState };
-			console.log(payload);
-			filteringHandler(payload);
-			console.log("Add nonVeg filter");
-		} else {
-			temp.style.backgroundColor = "white";
-			temp.style.color = "black";
-			temp.style.border = "black";
-			setNonVegState(false);
-			payload = { ...payload, nonVeg: !nonVegState };
-			console.log(payload);
-			filteringHandler(payload);
-			console.log("Remove nonVeg filter");
-		}
-	};
+		payload.map((p) => {
+			let temp = document.getElementById(p) || new HTMLSpanElement;
+			
+			if (p == filtername) {
+				temp.style.backgroundColor = "black";
+				temp.style.color = "white";
+				temp.style.border = "black";
+				setFilterState(p);
+				filteringHandler(p, true)
+			} else {
+				temp.style.backgroundColor = "white";
+				temp.style.color = "black";
+				temp.style.border = "black";
+				filteringHandler(p, false)
+			}
 
-	const veganSelectHandler = (e :any) => {
-		const temp = document.getElementById("vegan") || new HTMLSpanElement;
-		let payload = {
-			veg: vegState,
-			nonVeg: nonVegState,
-			vegan: veganState,
-			pickupState: pickupState,
-			deliveryState: deliveryState,
-		};
-		if (temp.style.backgroundColor === "white") {
-			temp.style.backgroundColor = "black";
-			temp.style.color = "white";
-			temp.style.border = "black";
-			setVeganState(true);
-			payload = { ...payload, vegan: !veganState };
-			console.log(payload);
-			filteringHandler(payload);
-			console.log("Add vegan filter");
-		} else {
-			temp.style.backgroundColor = "white";
-			temp.style.color = "black";
-			temp.style.border = "black";
-			setVeganState(false);
-			payload = { ...payload, vegan: !veganState };
-			console.log(payload);
-			filteringHandler(payload);
-			console.log("Remove vegan filter");
-		}
-	};
-
-	const pickupSelectHandler = (e :any) => {
-		const pickupBtn = document.getElementById("pickup") || new HTMLSpanElement;
-		const deliveryBtn = document.getElementById('delivery') as HTMLButtonElement;
-
-		let payload = {
-			veg: vegState,
-			nonVeg: nonVegState,
-			vegan: veganState,
-			pickupState: pickupState,
-			deliveryState: deliveryState,
-		};
-
-		if (pickupBtn.style.backgroundColor === "white") {
-			pickupBtn.style.backgroundColor = "black";
-			pickupBtn.style.color = "white";
-			pickupBtn.style.border = "black";
-			deliveryBtn.disabled = true;
-			payload = { ...payload, pickupState: !pickupState };
-			setPickupState(true);
-			console.log(payload);
-			filteringHandler(payload);
-			console.log("Add pickup filter");
-		} else {
-			pickupBtn.style.backgroundColor = "white";
-			pickupBtn.style.color = "black";
-			pickupBtn.style.border = "black";
-			deliveryBtn.disabled = false;
-			setPickupState(false);
-			console.log(payload);
-			filteringHandler({ ...payload, pickupState: !pickupState });
-			console.log("Remove pickup filter");
-		}
-	};
-
-	const deliverySelectHandler = (e :any) => {
-		const deliveryBtn = document.getElementById("delivery") as HTMLButtonElement || new HTMLSpanElement;
-		let payload = {
-			veg: vegState,
-			nonVeg: nonVegState,
-			vegan: veganState,
-			pickupState: pickupState,
-			deliveryState: deliveryState,
-		};
-
-		if (deliveryBtn.style.backgroundColor === "white") {
-			deliveryBtn.style.backgroundColor = "black";
-			deliveryBtn.style.color = "white";
-			deliveryBtn.style.border = "black";
-			deliveryBtn.disabled = true;
-			payload = { ...payload, deliveryState: !deliveryState };
-			setDeliveryState(true);
-			console.log(payload);
-			filteringHandler(payload);
-			console.log("Add delivery filter");
-		} else {
-			deliveryBtn.style.backgroundColor = "white";
-			deliveryBtn.style.color = "black";
-			deliveryBtn.style.border = "black";
-			deliveryBtn.disabled = false;
-			setDeliveryState(false);
-			console.log(payload);
-			filteringHandler({ ...payload, deliveryState: !deliveryState });
-			console.log("Remove delivery filter");
-		}
+		})
 	};
 
 	const searchHandler = async (e :any) => {
@@ -314,7 +185,7 @@ export const CustomerDashboard = (props :any) => {
 				<Card.Img
 					variant="top"
 					style={{ height: "20vh" }}
-					src={resto.profileImgUrl}
+					src={resto.dishes[0].imageLink}
 				/>
 				<Card.Body style={{ height: "10vh" }}>
 					<Row>
@@ -325,7 +196,7 @@ export const CustomerDashboard = (props :any) => {
 					<Row>
 						<Card.Text>
 							<h6>
-								Open from: {resto.opensAt} to {resto.closesAt}
+								Open from: {resto.schedule.monday.slice(0,4)} to {resto.schedule.monday.slice(4,1)}
 							</h6>
 						</Card.Text>
 						<Card.Text>
@@ -392,6 +263,7 @@ export const CustomerDashboard = (props :any) => {
 			<Form className="w-50 d-flex justify-content-center">
 					<Col className="" md={6}>
 						<FormControl
+							disabled
 							placeholder="Search here..."
 							onChange={(e :any) => {
 								setSearchInput(e.target.value);
@@ -412,7 +284,7 @@ export const CustomerDashboard = (props :any) => {
 							Search
 						</Button>
 						<Button
-							onClick={resetHandler}
+							// onClick={resetHandler}
 							className="mx-3 px-3"
 							style={{
 								backgroundColor: "#139CA8",
@@ -433,44 +305,44 @@ export const CustomerDashboard = (props :any) => {
 						style={{
 							backgroundColor: "#0D6D75",
 						}}
-						id="veg"
-						onClick={vegSelectHandler}
+						id="italien"
+						onClick={() => {filterHandler("italien")}}
 					>
-						Veg
+						Italien
 					</Button>
 					<Button className="col-sm-1 mx-2 btn br-3" style={{
 							backgroundColor: "#0D6D75", border: "black"
 						}}
-						id="nonVeg"
-						onClick={nonVegSelectHandler}
+						id="chinois"
+						onClick={() => {filterHandler("chinois")}}
 					>
-						Non-veg
+						Chinois
 					</Button>
 					<Button className="col-sm-1 mx-2 btn br-3" style={{
 							backgroundColor: "#0D6D75", border: "black"
 						}}
-						id="vegan"
-						onClick={veganSelectHandler}
+						id="kebab"
+						onClick={() => {filterHandler("kebab")}}
 					>
-						Vegan
-					</Button>
-
-					<Button className="col-sm-1 mx-2 btn br-3" style={{
-							backgroundColor: "#0D6D75", border: "black"
-						}}
-						id="pickup"
-						onClick={pickupSelectHandler}
-					>
-						Pick-up
+						Kebab
 					</Button>
 
 					<Button className="col-sm-1 mx-2 btn br-3" style={{
 							backgroundColor: "#0D6D75", border: "black"
 						}}
-						id="delivery"
-						onClick={deliverySelectHandler}
+						id="libanais"
+						onClick={() => {filterHandler("libanais")}}
 					>
-						Delivery
+						Libanais
+					</Button>
+
+					<Button className="col-sm-1 mx-2 btn br-3" style={{
+							backgroundColor: "#0D6D75", border: "black"
+						}}
+						id="koreen"
+						onClick={() => {filterHandler("koreen")}}
+					>
+						Koréen
 					</Button>
 				</ButtonGroup>
 			</Container>
