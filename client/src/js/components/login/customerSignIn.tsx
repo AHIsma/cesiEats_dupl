@@ -10,75 +10,48 @@ import {
 	FormLabel,
 	FormControl,
 	FormGroup,
-	Navbar,
 } from "react-bootstrap";
-import Axios from "axios";
+import LoginService from "../../services/loginService";
 import "./customerLogin.scss";
 
 export const CustomerSignIn = (props :any) => {
 	const navigate = useNavigate();
-	console.log(navigate);
-	//console.log(JSON.stringify(props));
 
 	const [emailId, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [message, setMessage] = useState("");
 
 	const loginToAccount = async (e :any) => {
-		// e.preventDefault();
-		// Axios.defaults.withCredentials = true;
+		e.preventDefault();
 
-		// const payload = {
-		// 	emailId: emailId,
-		// 	password: password,
-		// };
+		const payload = {
+			email: emailId,
+			password: password,
+		};
 
-		// console.log("Created payload! => ", JSON.stringify(payload));
-		// try {
-		// 	const response = await Axios.get(
-		// 		`http://${awsServer}/validate-customer`,
-		// 		{
-		// 			params: {
-		// 				emailId: emailId,
-		// 				password: password
-		// 			}
-		// 		}
-		// 	);
-		// 	console.log(response);
-		// 	console.log("Successfully login");
+		console.log("Created payload! => ", JSON.stringify(payload));
+		try {
+			const response = await LoginService.signIn(payload);
+			console.log(response);
+			console.log("Successfully login");
 
-		// 	history.push("/dashboard");
-		// } catch (err) {
-		// 	console.error("Error when logging in the customer => ", err);
-		// 	setMessage("Invalid credentials!");
-		// }
+			navigate("/customer/dashboard");
+		} catch (err) {
+			console.error("Error when logging in the customer => ", err);
+			setMessage("Invalid credentials!");
+		}
 	};
 
 	return (
-		<Container fluid>
-			<Navbar bg="light">
-				<Container>
-					<Navbar.Brand href="/welcome">
-						<img
-							src="https://uber-eats-webapp-clone.s3.us-west-1.amazonaws.com/logo.svg"
-							width="150"
-							height="50"
-							className="d-inline-block align-top"
-							alt="UberEats logo"
-						/>
-					</Navbar.Brand>
-				</Container>
-			</Navbar>
-
-			<Row>
-				<Col>
-					<h1 className="text">Login to eat with UberEats</h1>
-					{/* <h4>{message}</h4> */}
+		<Container fluid className="container 	">
+			<Row className="d-flex justify-content-center text-center w-100 m-auto">
+				<Col className="col-md-3">
+					<h1 className="text">Login to eat with cesiEats</h1>
 				</Col>
 			</Row>
 
-			<Row>
-				<Col>
+			<Row className="d-flex justify-content-center text-center m-auto">
+				<Col className="col-md-3">
 					<Form onSubmit={(e) => loginToAccount(e)}>
 						<FormGroup className="mb-3">
 							<FormLabel className="labels">Email ID: </FormLabel>
@@ -104,9 +77,9 @@ export const CustomerSignIn = (props :any) => {
 							/>
 						</FormGroup>
 
-						<FormGroup className="mb-3">
+						<FormGroup className="col">
 							<Row>
-								<Col>
+								<Col className="p-0">
 									<Button
 										variant="primary"
 										type="submit"
@@ -119,7 +92,7 @@ export const CustomerSignIn = (props :any) => {
 										Submit
 									</Button>
 								</Col>
-								<Col>
+								<Col className="p-0">
 									<Button
 										variant="primary"
 										style={{
@@ -129,7 +102,7 @@ export const CustomerSignIn = (props :any) => {
 										}}
 									>
 										<Link
-											to="customerSignup"
+											to="/customer/signUp"
 											className="submit-button"
 										>
 											New user?

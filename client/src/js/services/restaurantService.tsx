@@ -1,8 +1,7 @@
 import http from "../../http-common";
 
-
-const createAccount = (attrs :any) => {
-  return http.post("/users/add", attrs).catch(function (error) {
+const getRestaurants = (attrs :any) => {
+  return http.get("/restaurants/" + attrs, attrs).catch(function (error) {
       if (error.response) {
         // Request made and server responded
         console.log(error.response.data);
@@ -22,8 +21,8 @@ const createAccount = (attrs :any) => {
   );
 };
 
-const signIn = (attrs :any) => {
-  return http.post("/users/login", attrs).catch(function (error) {
+const getFavoriteRestaurants = (attrs :any) => {
+  return http.get("/restaurants/favorites/:id", attrs).catch(function (error) {
       if (error.response) {
         // Request made and server responded
         console.log(error.response.data);
@@ -43,8 +42,8 @@ const signIn = (attrs :any) => {
   );
 };
 
-const LambdaService = {
-  createAccount,
-  signIn
+const RestaurantService = {
+    getRestaurants,
+    getFavoriteRestaurants
 };
-export default LambdaService;
+export default RestaurantService;

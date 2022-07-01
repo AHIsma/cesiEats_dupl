@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { Welcome }  from "../components/dashboard/welcome";
-import { CustomerSignup } from "../views/login/customerSignUp";
-import { CustomerSignin } from "../views/login/customerSignIn";
+import { CustomerSignup } from "./login/customerSignUp";
+import { CustomerSignin } from "./login/customerSignIn";
+import { CustomerDashboard } from "../components/dashboard/customerDashboard";
 import NavBar from "../components/navBar/navBar";
 // import { RestaurantSignup } from "./RestaurantSignup/RestaurantSignup.page";
 // import { RestaurantSignin } from "./Login/RestaurantLogin.page";
@@ -13,7 +14,6 @@ import NavBar from "../components/navBar/navBar";
 // import { RestaurantMenu } from "../components/Profile/RestaurantMenu";
 // import { EditDish } from "../components/Dish/EditDish";
 // import { RestaurantOrders } from "../components/Orders/RestaurantOrders";
-// import { CustomerDashboard } from "../components/dashboard/CustomerDashboard";
 // import { CustomerFavorites } from "../components/dashboard/CustomerFavorites";
 // import { CustomerOrders } from "../components/Orders/CustomerOrders";
 // import { CustomerProfile } from "../components/Profile/CustomerProfile";
@@ -28,8 +28,9 @@ export default class Main extends Component {
 					<Route path="/" element={<Navigate to="/welcome" />} />
 					
 					<Route path="/welcome" element={<Welcome />} />
-					<Route path="/customerSignup" element={<CustomerSignup />}  />
-					<Route path="/customerSignin" element={<CustomerSignin />}  />
+					<Route path="/customer/signUp" element={<CustomerSignup />}  />
+					<Route path="/customer/signIn" element={<CustomerSignin />}  />
+					<Route path="/customer/dashboard" element={<CustomerDashboard />}  />
 					<Route
             			path="*"
             			element={

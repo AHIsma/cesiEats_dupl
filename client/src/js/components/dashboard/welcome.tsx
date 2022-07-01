@@ -14,13 +14,12 @@ export const Welcome = () => {
             <Container fluid>
 		    	<Row>
 		    	    <Col
-		    			md={6}
 		    			className="rowWrapper"
 		    		>
 		    			<Card
 		    				className="card"
 		    			>
-		    				<Card.Body>
+		    				<Card.Body className="d-flex flex-column align-items-center">
 		    					<Card.Title
 		    						style={{
 		    							color: "white",
@@ -36,26 +35,24 @@ export const Welcome = () => {
 		    						Order breakfast, lunch and dinner.
 		    					</Card.Text>
 
-		    					<Row>
-		    						<Col>
+		    					<Row className="w-100">
+		    						<Col className="d-flex justify-content-center">
 		    							``
 		    							<Button
 		    								variant="primary"
 		    								onClick={() =>
-		    									handleClick("/customerSignin")
+		    									handleClick("/customer/signin")
 		    								}
-		    								className="wel-btn"
 		    							>
 		    								Login.
 		    							</Button>
 		    						</Col>
-		    						<Col>
+		    						<Col className="d-flex justify-content-center">
 		    							<Button
 		    								variant="primary"
 		    								onClick={() =>
-		    									handleClick("/customerSignup")
+		    									handleClick("/customer/signup")
 		    								}
-		    								className="wel-btn"
 		    							>
 		    								Sign up.
 		    							</Button>
@@ -64,15 +61,61 @@ export const Welcome = () => {
 		    				</Card.Body>
 		    			</Card>
 		    		</Col>
-
-		    		<Col
-		    			md={6}
+		    	    <Col
 		    			className="rowWrapper"
 		    		>
 		    			<Card
 		    				className="card"
 		    			>
-		    				<Card.Body>
+		    				<Card.Body  className="d-flex flex-column align-items-center">
+		    					<Card.Title
+		    						style={{
+		    							color: "white",
+		    							textAlign: "center",
+		    							fontWeight: "bolder",
+		    						}}
+		    					>
+		    						Owner?
+		    					</Card.Title>
+		    					<Card.Text
+		    						style={{ color: "white", textAlign: "center" }}
+		    					>
+		    						Start selling with us, now!
+		    					</Card.Text>
+
+		    					<Row className="w-100">
+		    						<Col  className="d-flex justify-content-center">
+		    							``
+		    							<Button
+		    								variant="primary"
+		    								onClick={() =>
+		    									handleClick("/customer/signin")
+		    								}
+		    							>
+		    								Login.
+		    							</Button>
+		    						</Col>
+		    						<Col  className="d-flex justify-content-center">
+		    							<Button
+		    								variant="primary"
+		    								onClick={() =>
+		    									handleClick("/customer/signup")
+		    								}
+		    							>
+		    								Sign up.
+		    							</Button>
+		    						</Col>
+		    					</Row>
+		    				</Card.Body>
+		    			</Card>
+		    		</Col>
+		    		<Col
+		    			className="rowWrapper"
+		    		>
+		    			<Card
+		    				className="card"
+		    			>
+		    				<Card.Body className="d-flex flex-column align-items-center">
 		    					<Card.Title
 		    						style={{
 		    							color: "white",
@@ -88,7 +131,7 @@ export const Welcome = () => {
 		    						Deliver breakfast, lunch and dinner.
 		    					</Card.Text>
 		    					<Row>
-		    						<Col>
+		    						<Col className="d-flex justify-content-center">
 		    							<Button
 		    								variant="primary"
 		    								onClick={() =>
@@ -99,7 +142,7 @@ export const Welcome = () => {
 		    								Login.
 		    							</Button>
 		    						</Col>
-		    						<Col>
+		    						<Col className="d-flex justify-content-center">
 		    							<Button
 		    								variant="primary"
 		    								onClick={() =>

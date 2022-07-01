@@ -40,23 +40,24 @@ export const CustomerRegistration = (props :any) => {
 		const payload = {
 			firstName: firstName,
 			lastName: lastName,
-			emailId: emailId,
+			email: emailId,
+			role: "client",
 			password: password,
 			dob: dob,
 			phone: String(mobileNumber),
 			street: street,
-			apt: apt,
+			streetNo: apt,
 			city: city, 
-			zipCode: zipcode,
+			zipcode: zipcode,
 			state: state,
 			country: "United States",
 			type: "default",
 		};
 		console.log("Created payload!");
 		try {
-			await LoginService.create(payload);
+			await LoginService.createAccount(payload);
 			console.log("Successfully registered");
-			navigate("/welcome");
+			navigate("/customer/signIn");
 		} catch (err) {
 			console.error("Error when registering new customer => ", err);
 		}
@@ -242,7 +243,7 @@ export const CustomerRegistration = (props :any) => {
 										}}
 									>
 										<Link
-											to="customerSignin"
+											to="/customer/signIn"
 											className="submit-button"
 										>
 											Go to login
